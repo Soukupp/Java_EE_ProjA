@@ -31,6 +31,7 @@
 
 .el-card__body, .el-main {
      padding: 0px; 
+     width:390px;
 }
 
 .el-header{

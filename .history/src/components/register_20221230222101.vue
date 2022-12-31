@@ -20,7 +20,7 @@
     >
     <br>
     <br>
-      <el-form-item label="" prop="name" class="elItem" label-width="80px">
+      <el-form-item label="" prop="name" class="elItem" label-width="100px">
         <el-input
           type="text"
           autocomplete="off"
@@ -30,7 +30,7 @@
           class="infoIn"
         ></el-input
       ></el-form-item>
-      <el-form-item label="" prop="pass" class="elItem" label-width="80px"
+      <el-form-item label="" prop="pass" class="elItem" label-width="100px"
         ><el-input
           type="password"
           autocomplete="off"
@@ -41,7 +41,7 @@
         ></el-input
       ></el-form-item>
       <div class="Deutsch">
-      <el-form-item label="" prop="checkPass" class="elItem" label-width="80px"
+      <el-form-item label="" prop="checkPass" class="elItem" label-width="100px"
         ><el-input
           type="password"
           autocomplete="off"
@@ -150,7 +150,7 @@ export default {
   };
   </script>
   <style scoped lang="less">
-    .register{background-image: url("../img/new_login-background.png");
+    .register{background-image: url("../img/login-background3.png");
       width: 100%;
       height: 100%;
       position: absolute;
@@ -163,12 +163,12 @@ export default {
     margin-top:240px;
     opacity: 100%;
     height: 57%;
-    width:95%;
+    width:97%;
     position: absolute;
     margin-left:0px;
     padding: 10px;
     background: #fff;
-    border-radius: 0px;
+    border-radius: 10px;
     box-shadow: 0 0 10px #ddd;}
     
     .btns {
@@ -177,7 +177,7 @@ export default {
       }
     /deep/.el-form-item__error {
     color: #F56C6C;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1;
     padding-top: 4px;
     position: absolute;
@@ -186,7 +186,7 @@ export default {
 }
     
     p {
-    font-size: 30px;
+    font-size: 36px;
     text-align: center;
     font-weight: 600;
   }
@@ -198,12 +198,12 @@ export default {
     }
 
   /deep/ .el-input--medium .el-input__inner {
-    height: 48px;
-    line-height: 48px;
-    font-size:22px;
+    height: 64px;
+    line-height: 64px;
+    font-size:30px;
 }
   .Deutsch{
-    height:60px;
+    height:80px;
   }
 
 

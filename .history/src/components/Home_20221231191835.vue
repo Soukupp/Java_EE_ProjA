@@ -21,7 +21,7 @@
         <el-container>
             <el-main style="height:710px;"><AllExpert /></el-main>
         </el-container>
-        <Footer :num="num"></Footer>
+        <Footer :num="first"></Footer>
     </el-container>
 </template>
  

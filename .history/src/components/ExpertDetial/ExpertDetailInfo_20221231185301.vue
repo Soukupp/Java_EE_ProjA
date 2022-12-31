@@ -59,16 +59,6 @@
 
 <style scoped lang="less">
 
-.el-card {
-    border-radius: 4px;
-    border: 1px solid #EBEEF5;
-    background-color: #FFF;
-    overflow: hidden;
-    color: #303133;
-    transition: .3s;
-    width: 100%;
-}
-
 .btns{
     text-align:center;
 }

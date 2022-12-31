@@ -105,22 +105,11 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .img {
   width: 80px;
   height: 80px;
 }
-
-/deep/.el-card {
-    border-radius: 4px;
-    border: 1px solid #EBEEF5;
-    background-color: #FFF;
-    overflow: hidden;
-    color: #303133;
-    transition: .3s;
-    width: 100%; 
-}
-
 </style>
 
 

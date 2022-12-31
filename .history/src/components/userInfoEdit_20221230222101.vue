@@ -1,5 +1,5 @@
 <template>
-  <div class="personalCenter" >
+  <div class="personalCenter">
     <el-dialog :visible.sync="examineBtn"> 
           姓名
           <el-input
@@ -8,7 +8,23 @@
             placeholder="请输入您的姓名"
             show-word-limit
           ></el-input>
-
+        性别
+        <br/>
+          <el-select v-model="value" placeholder="请选择您的性别">
+          <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+          </el-option>
+          </el-select>
+          <br/>
+          职业
+          <el-input 
+          v-model="input7" 
+          type="text"
+          placeholder="请输入您的职业">
+          </el-input>
           学校
           <el-input
             v-model="input8"
@@ -25,12 +41,17 @@
             maxlength="100"
             show-word-limit
           ></el-input>
-            <br>
-            <br>
-            <br>
-            <div style="text-align:center;">
+          年龄
+          <el-input
+            v-model="input10"
+            type="number"
+            placeholder="请选择您的年龄"
+            show-word-limit
+          ></el-input>
+          <el-button-group style="float: right; padding: 8px 0" type="text">
             <el-button type="primary" size="medium" round>保存</el-button>
-          </div>
+            <br/>
+          </el-button-group>
     </el-dialog>
   </div>
 </template>
@@ -86,35 +107,6 @@
   }
 </script>
 
-<style scoped lang="less">
-.personalCenter{
-  font-size:18px;
-}
-
-
-/deep/.el-input__inner {
-    -webkit-appearance: none;
-    background-color: #FFF;
-    background-image: none;
-    border-radius: 24px;
-    border: 1px solid #DCDFE6;
-    box-sizing: border-box;
-    color: #606266;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    outline: 0;
-    padding: 0 15px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-    width: 100%;
-}
-
-
-/deep/.el-dialog__body {
-    padding: 30px 20px;
-    color: #606266;
-    font-size: 16px;
-    word-break: break-all;
-}
+<style scoped>
 </style>
 

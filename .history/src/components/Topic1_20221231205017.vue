@@ -23,7 +23,7 @@
     overflow: hidden;
     color: #303133;
     transition: .3s;
-    width: 100%; 
+    width: 390px; 
 }
 
     .time {

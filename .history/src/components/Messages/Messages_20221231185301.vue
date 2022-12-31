@@ -6,7 +6,7 @@
                 <div v-for="(item,index) in Messages" :key="index">
                   <el-card>
                     <span style="font-size:12px;">{{ item.name }}</span>
-                    <span style="float:right; font-size:12px;">时间{{ item.time }}</span>
+                    <span style="float:right; font-size:12px;">{{ item.time }}</span>
                     <br>
                     <span style="font-size:18px;">{{ item.content }}</span>
                   </el-card>
