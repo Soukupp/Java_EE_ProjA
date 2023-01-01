@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'); 
+npximportScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
 // set the prefix and suffix of our sw's name
 workbox.core.setCacheNameDetails({
@@ -8,7 +8,12 @@ workbox.core.setCacheNameDetails({
 // have our sw update and control a web page as soon as possible.
 // workbox.skipWaiting();
 // workbox.clientsClaim();
-
+self.addEventListener('install', function (event) {
+  console.log('Service Worker install');
+});
+self.addEventListener('activate', function (event) {
+  console.log('Service Worker activate');
+});
 // vue-cli3.0 supports pwa with the help of workbox-webpack-plugin, we need to get the precacheing list through this sentence.
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
@@ -18,8 +23,8 @@ workbox.routing.registerRoute(
   /.*\.css/,
   // 使用缓存，但尽快在后台更新
   workbox.strategies.staleWhileRevalidate({
-      // 使用自定义缓存名称
-      cacheName: 'css-cache'
+    // 使用自定义缓存名称
+    cacheName: 'css-cache'
   })
 );
 
@@ -29,8 +34,8 @@ workbox.routing.registerRoute(
   /.*\.js/,
   // 使用缓存，但尽快在后台更新
   workbox.strategies.staleWhileRevalidate({
-      // 使用自定义缓存名称
-      cacheName: 'js-cache'
+    // 使用自定义缓存名称
+    cacheName: 'js-cache'
   })
 );
 
@@ -38,12 +43,12 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   /\.(?:png|gif|jpg|jpeg|svg)$/,
   workbox.strategies.staleWhileRevalidate({
-      cacheName: 'images-cache',
-      plugins: [
-          new workbox.expiration.Plugin({
-              maxEntries: 60,
-              maxAgeSeconds: 1 * 24 * 60 * 60 // 设置缓存有效期为30天
-          })
-      ]
+    cacheName: 'images-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 60,
+        maxAgeSeconds: 1 * 24 * 60 * 60 // 设置缓存有效期为30天
+      })
+    ]
   })
 );
