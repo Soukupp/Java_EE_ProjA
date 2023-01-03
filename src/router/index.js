@@ -9,6 +9,7 @@ import getQualification from '../components/getQualification/getQualification.vu
 import Header from '../components/Header.vue'
 import Helloworld from '../components/HelloWorld.vue'
 import Home from '../components/Home.vue'
+import SearchResult from '../components/SearchResult.vue'
 import Jay from '../components/Jay.vue'
 import Login from '../components/Login.vue'
 import Messages from '../components/Messages/Messages.vue'
@@ -41,36 +42,37 @@ const router = new VueRouter({
     { path: '/SpecialNotice', component: SpecialNotcie },
     { path: '/MakeComplaint', component: MakeComplaint },
     { path: '/getQualification', component: getQualification },
-    {path:'/CreateTopics',component:CreateTopics},
+    { path: '/CreateTopics', component: CreateTopics },
     { path: '/MakeComment', component: MakeComment },
     { path: '/MyCollection', component: MyCollection },
-        { path: '/confirmOrder', component: ConfirmOrder },
-        { path: '/ExpertDetailInfo', component: ExpertDetailInfo },
-        { path: '/AllExpert', component: AllExpert },
-        { path: '/Score', component: Score },
-        { path: '/Test4', component: Test4 },
-        { path: '/', redirect: '/Welcome' },
-        { path: '/home', component: Home },
-        { path: '/jay', component: Jay },
-        { path: '/register', component: Register },
-        { path: '/login', component: Login },
-        { path: '/helloworld', component: Helloworld },
-        { path: '/topic', component: Topic },
-        { path: '/UserInfo', component: UserInfo },
-        { path: '/Test', component: Test },
-        { path: '/Welcome', component: Welcome },
-        { path: '/Topic1', component: Topic1 },
-        { path: '/Test2', component: Test2 },
-        { path: '/Test3', component: test3 },
-        { path: '/Expert/:id', name: Expert, component: Expert },
-        { path: '/UserOrder', component: UserOrder },
-        { path: '/OrderMenu', component: OrderMenu },
-        { path: '/Orders', component: Orders },
-        { path: '/Header', component: Header },
-        { path: '/Me', component: Me },
+    { path: '/confirmOrder', component: ConfirmOrder },
+    { path: '/ExpertDetailInfo', component: ExpertDetailInfo },
+    { path: '/AllExpert', component: AllExpert },
+    { path: '/Score', component: Score },
+    { path: '/Test4', component: Test4 },
+    { path: '/', redirect: '/Welcome' },
+    { path: '/home', component: Home },
+    { path: '/searchresult/:input', name: SearchResult, component: SearchResult },
+    { path: '/jay', component: Jay },
+    { path: '/register', component: Register },
+    { path: '/login', component: Login },
+    { path: '/helloworld', component: Helloworld },
+    { path: '/topic', component: Topic },
+    { path: '/UserInfo', component: UserInfo },
+    { path: '/Test', component: Test },
+    { path: '/Welcome', component: Welcome },
+    { path: '/Topic1', component: Topic1 },
+    { path: '/Test2', component: Test2 },
+    { path: '/Test3', component: test3 },
+    { path: '/Expert/:id', name: Expert, component: Expert },
+    { path: '/UserOrder', component: UserOrder },
+    { path: '/OrderMenu', component: OrderMenu },
+    { path: '/Orders', component: Orders },
+    { path: '/Header', component: Header },
+    { path: '/Me', component: Me },
     { path: '/Messages', component: Messages },
-        {path:'/UserInfoEdit',component:UserInfoEdit}
-    ]
+    { path: '/UserInfoEdit', component: UserInfoEdit }
+  ]
 })
 
 
