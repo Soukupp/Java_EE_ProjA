@@ -83,7 +83,6 @@ export default {
 
   data() {
     return {
-      input: "",
       isCollapse: false,
       num: "first",
     };
@@ -115,10 +114,6 @@ export default {
     mounted() {
         this.userId = localStorage.getItem('userId');
         console.log("Home页面的userId是"+this.userId);
-    },
-    search() {
-      console.log("Home输入内容：" + this.input);
-      this.$router.push(`/searchresult/${this.input}`);
     },
   },
 };

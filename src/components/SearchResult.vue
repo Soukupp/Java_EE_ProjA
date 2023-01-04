@@ -43,7 +43,7 @@
           <div
             style="padding: 14px"
             :key="index"
-            @click="linkToExpertDetail(item, index)"
+            @click="expLinkToExpertDetail(item, index)"
           >
             <div>
               <span class="name">{{ Experts[index].realName }}&nbsp;&nbsp;</span>
@@ -88,7 +88,7 @@
           <div
             style="padding: 14px"
             :key="index"
-            @click="linkToExpertDetail(item, index)"
+            @click="tpcLinkToExpertDetail(item, index)"
           >
             <div>
               <span class="name"># {{ Topics[index].title }}</span
@@ -321,8 +321,13 @@ export default {
       return res;
     },
 
-    linkToExpertDetail(item, index) {
-      var id = this.getExpert(item, index);
+    expLinkToExpertDetail(item, index) {
+      var id = this.Experts[index].phone;
+      console.log("跳转到" + id + "对应的行家信息详情");
+      this.$router.push(`/ExpertDetailInfo/${id}`);
+    },
+    tpcLinkToExpertDetail(item, index) {
+      var id = this.Topics[index].expertId;
       console.log("跳转到" + id + "对应的行家信息详情");
       this.$router.push(`/ExpertDetailInfo/${id}`);
     },

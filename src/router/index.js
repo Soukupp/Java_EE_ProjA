@@ -39,7 +39,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
-    {path:'/AreaChoose',component:AreaChoose},
+    { path: '/AreaChoose', component: AreaChoose },
     { path: '/AboutUs', component: AboutUs },
     { path: '/SpecialNotice', component: SpecialNotcie },
     { path: '/MakeComplaint', component: MakeComplaint },
@@ -50,6 +50,7 @@ const router = new VueRouter({
 
     { path: '/confirmOrder', component: ConfirmOrder },
     { path: '/ExpertDetailInfo', component: ExpertDetailInfo },
+    { path: '/ExpertDetailInfo/:id', component: ExpertDetailInfo },
     { path: '/AllExpert', component: AllExpert },
     { path: '/Score', component: Score },
     { path: '/Test4', component: Test4 },
