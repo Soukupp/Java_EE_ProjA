@@ -1,0 +1,108 @@
+<template>
+    <el-container>
+        <Header />
+        <el-container>
+            <el-main style="height:710px;">
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick" :stretch="true">
+                <el-tab-pane label="全部" name="first"><AllOrders /></el-tab-pane>
+                <el-tab-pane label="进行中" name="second"><OrdersInProgress /></el-tab-pane>
+                <el-tab-pane label="已完成" name="third"><OrdersTobeEvaluated /></el-tab-pane>
+                <el-tab-pane label="已评价" name="fourth"><EvaluatedOrders /></el-tab-pane>
+                
+            </el-tabs>
+        </el-main>
+        </el-container>
+        <Footer :num="num"></Footer>
+    </el-container>
+</template>
+  <script>
+import Footer from '../Footer.vue';
+import Header from '../Header.vue';
+import AllOrders from './AllOrders.vue';
+import EvaluatedOrders from './EvaluatedOrders.vue';
+import OrderMenu from './OrderMenu.vue';
+import OrdersInProgress from './OrdersInProgress.vue';
+import OrdersTobeEvaluated from './OrdersTobeEvaluated.vue';
+    export default {
+      data() {
+        return {
+          activeName: 'first',
+          num:"second",
+        };
+    },
+    components: {
+      AllOrders,
+      OrdersInProgress,
+      OrdersTobeEvaluated,
+      EvaluatedOrders,
+      OrderMenu,
+      Footer,
+      Header,
+    },
+      methods: {
+        handleClick(tab, event) {
+          console.log(tab, event);
+        }
+      }
+    };
+  </script>
+  
+  
+  <style scoped lang="less">
+  
+
+  .bg{
+    width: 100%;
+    height: 100vh;
+    background-size: 100% 100%;
+    background-position: center center;
+    background-image: url("../../img/galaxy.jpg");
+    overflow: auto;
+    position: relative;
+}
+  .el-container {
+    display: block;
+    flex-direction: row;
+    flex: 1;
+    flex-basis: auto;
+    box-sizing: border-box;
+    min-width: 0;
+}
+  .el-card__body, .el-main {
+     padding: 0px; 
+}
+
+
+ .element.style {
+    height: 100px;
+}
+ .toggle-button{
+  background-color: #4A5064;//背景色(浅灰)
+  font-size: 10px;//字体大小10像素
+  line-height: 24px;//行高24像素
+  color: #fff;//字体颜色白色
+  text-align: center;//字体居中
+  letter-spacing: 0.2em;//字体之间的距离
+  cursor: pointer;//鼠标的形状（手形）
+}
+ .submenu{
+     display:inline-flex;
+     text-align:left;
+     margin-left:15px;
+ }
+
+  .el-aside{
+     background-color: #333744;
+ }
+  .el-main{
+     background-color: #eaedf1;
+ }
+
+ /deep/.home-container{
+    height: 100vh;
+    width:70%;
+}
+
+ 
+  
+  </style>
