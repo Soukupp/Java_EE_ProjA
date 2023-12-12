@@ -6,7 +6,7 @@
   </template>
 
   <script>
-  import Footer from './Footer.vue';
+  import Footer from './Screen/Footer.vue';
   export default {
     data () {
       return {

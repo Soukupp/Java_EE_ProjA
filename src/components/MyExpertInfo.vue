@@ -75,8 +75,8 @@
   <script>
   //个人信息的编辑，涉及到省份和城市接口的调用，先选省份，选好后得到pid再传给city接口才能得到city信息。
   import axios from 'axios';
-import Footer from './Footer.vue';
-import Header from './Header.vue';
+import Footer from './Screen/Footer.vue';
+import Header from './Screen/Header.vue';
 import CreateTopics from './Topics/CreateTopics.vue';
 import userInfoEdit from './userInfoEdit.vue';
   export default {

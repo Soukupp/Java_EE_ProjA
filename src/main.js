@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import Vue from 'vue'
 import vuex from 'vuex'
 import App from './App.vue'
-import Footer from './components/Footer.vue'
+import Footer from './components/Screen/Footer.vue'
 import './registerServiceWorker'
 import router from './router'
 

@@ -144,8 +144,8 @@
 
 <script>
 import axios from 'axios';
-import Footer from '../Footer.vue';
-import Header from '../Header.vue';
+import Footer from '../Screen/Footer.vue';
+import Header from '../Screen/Header.vue';
 import ConfirmOrder from '../Orders/confirmOrder.vue';
 import Test5 from '../Test5.vue';
 export default {

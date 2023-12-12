@@ -1,10 +1,8 @@
 <template>
 <el-container>
-       
-           <Header />
-        <!-- 页面主体区域 -->
+        <Header />
         <el-container>
-            <el-main style="height:710px;"><AllExpert /></el-main>
+            <el-main style="height:710px;"><ExpertScreen /></el-main>
         </el-container>
         <Footer :num="num"></Footer>
   </el-container>
@@ -73,11 +71,11 @@
 </style>
 
 <script>
-import AllExpert from "./AllExpert.vue";
+import ExpertScreen from "./ExpertScreen.vue";
 import Footer from "./Footer.vue";
 import Header from "./Header.vue";
-import Topic1 from "./Topic1.vue";
-import userInfo from "./userInfo.vue";
+import Topic1 from "../Topic1.vue";
+import userInfo from "../userInfo.vue";
 export default {
 
   data() {
@@ -89,10 +87,11 @@ export default {
   components: {
     userInfo,
     Topic1,
-    AllExpert,
+    ExpertScreen,
     Footer,
     Header,
-  },
+    ExpertScreen
+},
   methods: {
     logout() {
       window.sessionStorage.clear();

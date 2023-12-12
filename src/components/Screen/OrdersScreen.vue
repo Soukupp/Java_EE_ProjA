@@ -16,13 +16,13 @@
     </el-container>
 </template>
   <script>
-import Footer from '../Footer.vue';
-import Header from '../Header.vue';
-import AllOrders from './AllOrders.vue';
-import EvaluatedOrders from './EvaluatedOrders.vue';
-import OrderMenu from './OrderMenu.vue';
-import OrdersInProgress from './OrdersInProgress.vue';
-import OrdersTobeEvaluated from './OrdersTobeEvaluated.vue';
+import Footer from './Footer.vue';
+import Header from './Header.vue';
+import AllOrders from '../Orders/AllOrders.vue';
+import EvaluatedOrders from '../Orders/EvaluatedOrders.vue';
+import OrderMenu from '../Orders/OrderMenu.vue';
+import OrdersInProgress from '../Orders/OrdersInProgress.vue';
+import OrdersTobeEvaluated from '../Orders/OrdersTobeEvaluated.vue';
     export default {
       data() {
         return {
