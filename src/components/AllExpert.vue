@@ -2,14 +2,14 @@
   <div class="bg">
     <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_f8oepiumx94.css">
     <div class="icons">
-      <span class="com"><i class="iconfont icon-shangyehezuo-copy"></i>
-        <div style="text-align:center;" @click="changeView(1)">心理</div>
+      <span class="com" @click="changeView(1)"><i class="iconfont icon-shangyehezuo-copy"></i>
+        <div style="text-align:center;" >心理</div>
       </span>
-      <span class="com" style="margin-left:50px;margin-right:50px;"><i class="iconfont icon-bianji_edit"></i>
-        <div style="text-align:center;" @click="changeView(2)">学业</div>
+      <span class="com" style="margin-left:50px;margin-right:50px;"  @click="changeView(2)"><i class="iconfont icon-bianji_edit"></i>
+        <div style="text-align:center;">学业</div>
       </span>
-      <span class="com"><i class="iconfont icon-gongzuotai_workbench"></i>
-        <div style="text-align:center;" @click="changeView(3)">就业</div>
+      <span class="com" @click="changeView(3)"><i class="iconfont icon-gongzuotai_workbench"></i>
+        <div style="text-align:center;">就业</div>
       </span>
     </div>
     <br>
@@ -220,8 +220,11 @@ export default {
   methods: {
     async queryData() {
       var config = {
-        method: 'post',
-        url: '/expert/getAll'
+        method: 'get',
+        url: '/expert/getAll',
+        params:{
+          type:1
+        }
       }
       var res = await axios(config)
       this.Experts = res.data.data
@@ -242,18 +245,17 @@ export default {
     },
 
     async changeView(index) {
+      console.log("changeview")
+      const vm = this; // 存储外部的 this
       const config = {
+        method: 'get',
         url: '/expert/getAll',
         params: {
-          type: index
-        },
-      }
-      axios.get(config).then(
-        function(res) {
-          this.Experts = res.data.data;
+          type:index
         }
-      )
-
+      }
+      var res = await axios(config)
+      this.Experts = res.data.data
     },
 
     async getTopics(length) {
