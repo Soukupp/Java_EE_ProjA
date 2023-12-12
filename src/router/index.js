@@ -12,7 +12,10 @@ import Home from '../components/Home.vue'
 import Jay from '../components/Jay.vue'
 import Login from '../components/Login.vue'
 import Messages from '../components/Messages/Messages.vue'
+import MyExpertInfo from '../components/MyExpertInfo.vue'
+import MyExpertTopic from '../components/MyExpertTopic.vue'
 import ConfirmOrder from '../components/Orders/confirmOrder.vue'
+import MyExpertOrder from '../components/Orders/MyExpertOrders.vue'
 import OrderMenu from '../components/Orders/OrderMenu.vue'
 import Orders from '../components/Orders/Orders.vue'
 import Register from '../components/register.vue'
@@ -47,9 +50,10 @@ const router = new VueRouter({
     { path: '/CreateTopics', component: CreateTopics },
     { path: '/MakeComment', component: MakeComment },
     { path: '/MyCollection', component: MyCollection },
-
+    { path: '/MyExpertInfo', component: MyExpertInfo },
+    { path: '/MyExpertOrder', component: MyExpertOrder },
+    { path: '/MyExpertTopic', component: MyExpertTopic },
     { path: '/confirmOrder', component: ConfirmOrder },
-    { path: '/ExpertDetailInfo', component: ExpertDetailInfo },
     { path: '/ExpertDetailInfo/:id', component: ExpertDetailInfo },
     { path: '/AllExpert', component: AllExpert },
     { path: '/Score', component: Score },

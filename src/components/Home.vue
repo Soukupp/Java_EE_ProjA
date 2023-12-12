@@ -7,7 +7,6 @@
             <el-main style="height:710px;"><AllExpert /></el-main>
         </el-container>
         <Footer :num="num"></Footer>
-    <Footer :num="num"></Footer>
   </el-container>
 </template>
 

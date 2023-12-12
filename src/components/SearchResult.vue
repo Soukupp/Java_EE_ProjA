@@ -79,49 +79,50 @@
             </div>
           </div>
         </el-card>
-
-        <el-card
-          :body-style="{ padding: '0px' }"
-          v-for="(item, index) in Topics"
-          :key="index"
-        >
-          <div
-            style="padding: 14px"
+        <div>
+          <el-card
+            :body-style="{ padding: '0px' }"
+            v-for="(item, index) in Topics"
             :key="index"
-            @click="tpcLinkToExpertDetail(item, index)"
           >
-            <div>
-              <span class="name"># {{ Topics[index].title }}</span
-              ><br />
-              <span class="name">{{ Topics[index].realName }}&nbsp;&nbsp;</span>
-
-              <span class="city"
-                ><i class="el-icon-location"></i>{{ Topics[index].city }}</span
-              >
-              <br />
-              <span class="title">{{ Topics[index].job }}</span>
-            </div>
-
-            <div class="description">
-              <div class="subdes">
-                <span
-                  class="topic"
-                  v-for="(item, subIndex) in Topics[index].topic"
-                  :key="subIndex"
-                  ><i style="color: gray; font-size: 20px">#&nbsp;</i
-                  >{{ Topics[index].topic[subIndex].title }}<br
-                /></span>
-              </div>
-              <br />
+            <div
+              style="padding: 14px"
+              :key="index"
+              @click="tpcLinkToExpertDetail(item, index)"
+            >
               <div>
-                <!-- <span class="type"
+                <span class="name"># {{ Topics[index].title }}</span
+                ><br />
+                <span class="name">{{ Topics[index].realName }}&nbsp;&nbsp;</span>
+
+                <span class="city"
+                  ><i class="el-icon-location"></i>{{ Topics[index].city }}</span
+                >
+                <br />
+                <span class="title">{{ Topics[index].job }}</span>
+              </div>
+
+              <div class="description">
+                <div class="subdes">
+                  <span
+                    class="topic"
+                    v-for="(item, subIndex) in Topics[index].topic"
+                    :key="subIndex"
+                    ><i style="color: gray; font-size: 20px">#&nbsp;</i
+                    >{{ Topics[index].topic[subIndex].title }}<br
+                  /></span>
+                </div>
+                <br />
+                <div>
+                  <!-- <span class="type"
                   >&nbsp;&nbsp;{{ Topics[index].topic[0].type }}&nbsp;&nbsp;</span
                 > -->
-                <span class="price">{{ Topics[index].price }}元/小时</span>
+                  <span class="price">{{ Topics[index].price }}元/小时</span>
+                </div>
               </div>
             </div>
-          </div>
-        </el-card>
+          </el-card>
+        </div>
       </el-main>
     </el-container>
     <Footer :num="num"></Footer>
@@ -297,7 +298,7 @@ export default {
       expertData.append("content", this.inputSearch);
       var config = {
         method: "post",
-        url: "http://localhost:8080/expert/search",
+        url: "/expert/search",
         data: expertData,
       };
       var res = await axios(config);
@@ -311,7 +312,7 @@ export default {
       topicData.append("content", this.inputSearch);
       var config = {
         method: "post",
-        url: "http://localhost:8080/topic/search",
+        url: "/topic/search",
         data: topicData,
       };
       var res = await axios(config);
@@ -337,7 +338,7 @@ export default {
         data.append("expertId", this.Experts[i].phone);
         var config = {
           method: "post",
-          url: "http://localhost:8080/topic/getById",
+          url: "/topic/getById",
           data: data,
         };
         var that = this;
@@ -358,7 +359,7 @@ export default {
         data.append("userId", this.Experts[i].phone);
         var config = {
           method: "post",
-          url: "http://localhost:8080/user/myInfo",
+          url: "/user/myInfo",
           data: data,
         };
         var that = this;
@@ -380,7 +381,7 @@ export default {
         data.append("userId", this.Topics[i].expertId);
         var config = {
           method: "post",
-          url: "http://localhost:8080/expert/getOne",
+          url: "/expert/getOne",
           data: data,
         };
         var that = this;
@@ -404,7 +405,7 @@ export default {
         data.append("expertId", this.Topics[i].expertId);
         var config = {
           method: "post",
-          url: "http://localhost:8080/topic/getById",
+          url: "/topic/getById",
           data: data,
         };
         var that = this;
@@ -425,7 +426,7 @@ export default {
         data.append("userId", this.Topics[i].expertId);
         var config = {
           method: "post",
-          url: "http://localhost:8080/user/myInfo",
+          url: "/user/myInfo",
           data: data,
         };
         var that = this;
