@@ -267,7 +267,7 @@ Vue.prototype.$message = Message;
       data.append("customer_id", this.userId);
       var config = {
       method: 'post',
-        url: '/orderset/GetOrdersetByID',
+        url: '/order/GetOrderByID',
         data: data,
     }
       var res = await axios(config)

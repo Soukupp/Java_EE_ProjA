@@ -13,31 +13,18 @@
             <div style="padding: 14px;" :key="index"  @click="linkToExpertDetail(item,index)">
               <div>
               <span class="name">{{Experts[index].realName}}&nbsp;&nbsp;</span>
-              
-              <span class="city"><i class="el-icon-location"></i>{{Experts[index].city}}</span>
-              <br>
               <span class="title">{{Experts[index].title}}</span>
               </div>
-    
-              <div class="description" >
-
-                <br>
-                
+              <div class="description" >   
                 <div class="subdes">
-                  
                   <span class="topic" v-for="(item,subIndex) in Experts[index].topic" :key="subIndex"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ Experts[index].topic[subIndex].title }}<br></span>  
                   </div>
-                <br>
                 <div>
                 <span class="type">&nbsp;&nbsp;{{ Experts[index].type }}&nbsp;&nbsp;</span> 
                 <span class="price">{{Experts[index].price}}元/小时</span>
             </div>
               </div>
-              
-              
-              
             </div>
-    
           </el-card>
     </div>
 </el-main>
@@ -337,11 +324,11 @@ export default {
     console.log("MyCollection页面的userId是" + this.userId);
     this.getFav().then(res => {
       this.Experts = res.data.data;
-      console.log("experts长度是" + this.Experts.length);
-      this.getTopics(this.Experts.length);
-      this.getCity(this.Experts.length);
-      this.getExpertInfo(this.Experts.length);
-      console.log(this.Experts);
+      // console.log("experts长度是" + this.Experts.length);
+      // this.getTopics(this.Experts.length);
+      // this.getCity(this.Experts.length);
+      // this.getExpertInfo(this.Experts.length);
+      // console.log(this.Experts);
     })
   },
   beforeMount() {
