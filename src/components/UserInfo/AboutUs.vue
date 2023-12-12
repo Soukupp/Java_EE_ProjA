@@ -14,9 +14,9 @@
 
 
 <script>
-import Footer from '../Footer.vue';
+import Footer from '../Screen/Footer.vue';
 import getQualification from '../getQualification/getQualification.vue';
-import Header from '../Header.vue';
+import Header from '../Screen/Header.vue';
 export default {
     data() {
     return {

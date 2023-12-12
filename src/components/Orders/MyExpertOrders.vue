@@ -175,8 +175,8 @@
 import axios from 'axios';
 import MakeComment from '../Comments/MakeComment.vue';
 import MakeComplaint from '../Complaints/MakeComplaint.vue';
-import Footer from '../Footer.vue';
-import Header from '../Header.vue';
+import Footer from '../Screen/Footer.vue';
+import Header from '../Screen/Header.vue';
 import Test4 from '../Test4.vue';
   export default {
   name: 'Evaluated',

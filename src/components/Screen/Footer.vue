@@ -61,30 +61,20 @@ export default {
     },
     methods: {
         linkToAllExpert() {
-            console.log("跳转到行家页面去");
             this.$router.push({
                 path: '/Home'
             })
             this.activeName = this.num;
         },
-        linkToMessages() {
-            console.log("跳转到消息页面去");
-            this.$router.push({
-            path: '/Messages'
-            })
-            this.activeName = this.num;
-        },
         linkToUser() {
-            console.log("跳转到个人页面去");
             this.$router.push({
-            path: '/Me'
+            path: '/UserInfoScreen'
             })
             this.activeName = this.num;
         },
         linkToOrders() {
-            console.log("跳转到订单页面去");
             this.$router.push({
-            path: '/Orders'
+            path: '/OrdersScreen'
             })
             this.activeName = this.num;
         },

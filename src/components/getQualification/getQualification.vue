@@ -48,8 +48,8 @@
 <script>
 import axios from 'axios';
 
-import Footer from '../Footer.vue';
-import Header from '../Header.vue';
+import Footer from '../Screen/Footer.vue';
+import Header from '../Screen/Header.vue';
 export default {
   components: {
     Header,

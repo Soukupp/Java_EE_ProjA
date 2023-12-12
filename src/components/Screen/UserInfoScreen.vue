@@ -59,9 +59,9 @@
 
 <script>
 import axios from 'axios';
-import Footer from '../Footer.vue';
+import Footer from './Footer.vue';
 import getQualification from '../getQualification/getQualification.vue';
-import Header from '../Header.vue';
+import Header from './Header.vue';
 import { Message } from 'element-ui';
 import "element-ui/lib/theme-chalk/index.css";
 import Vue from 'vue';

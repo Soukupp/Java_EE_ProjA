@@ -6,7 +6,7 @@
 
 <script>
 import Expert from './components/expert.vue';
-import Header from './components/Header.vue';
+import Header from './components/Screen/Header.vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Login from './components/Login.vue';
 import Topic1 from './components/Topic1.vue';

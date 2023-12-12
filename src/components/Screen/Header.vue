@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <div>
-      <img src="../img/logo.png" alt="" height="40px" />
+      <img src="../../img/logo.png" alt="" height="40px" />
       <span>对询</span>
     </div>
     <el-row>
