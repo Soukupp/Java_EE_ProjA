@@ -8,10 +8,7 @@
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
             </div>
-  
             <div class="description" >
-
-              
               <div class="subdes">
                 <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{orders[index].title}}</span>  
                 <br>
@@ -24,7 +21,6 @@
               <el-button @click="confirm(index)" v-if="orders[index].state=='进行中'">完成订单</el-button>
               <el-button @click="linkToComment(index)" v-else-if="orders[index].state =='已完成'">评价订单</el-button>
               <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state=='已评价'">投诉行家</el-button>
-
               <el-dialog
             title="取消订单"
             :visible.sync="CancelVisible"
@@ -263,25 +259,17 @@ Vue.prototype.$message = Message;
             done();
     },
     async queryData() {
-      var data = new FormData();
-      data.append("customer_id", this.userId);
       var config = {
-      method: 'post',
+      method: 'get',
         url: '/order/GetOrderByID',
-        data: data,
+        params: {
+          customer_id:this.userId
+        },
     }
       var res = await axios(config)
-
       return res;
     },
-
     ConfirmComplaint(temp) {
-      console.log(this.orders[temp].orderId);
-      console.log(this.orders[temp].expertId);
-      console.log(this.userId);
-      console.log(this.complaintform.name);
-      console.log("直接跳转到订单页");
-      console.log("您已完成投诉！");//改成弹窗提示
       var data = new FormData();
       
       data.append('Order_id', this.orders[temp].orderId);
@@ -317,12 +305,6 @@ Vue.prototype.$message = Message;
 
     //确认评价的函数
     ConfirmComment(temp) {
-      console.log(this.orders[temp].orderId);
-      console.log(this.orders[temp].expertId);
-      console.log(this.userId);
-      console.log(this.commentform.name);
-      console.log("直接跳转到订单页");
-      console.log("您已完成投诉！");//改成弹窗提示
       var data = new FormData();
       data.append('user_id', this.userId);
       data.append('expert_id', this.orders[temp].expertId);
@@ -347,7 +329,7 @@ Vue.prototype.$message = Message;
           data1.append('customer_id', that.userId);
           data1.append('order_id', that.orders[temp].orderId);
           var config1 = {
-            method: 'post',
+            method: 'get',
             url: '/order/ModifyOrderStatusToReview',
             data: data1,
           }
@@ -367,26 +349,8 @@ Vue.prototype.$message = Message;
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.queryData().then(res => {
-      console.log("res是");
-      console.log("类型是" + typeof (res.data.data));
-      console.log(res.data.data);
-      console.log(res);
       this.orders = res.data.data;
-      //console.log(this.orders);
     })
-    axios.get("https://www.fastmock.site/mock/edc8f6926e9ba279a9e6a85407dd71aa/PointedInquiry/AllOrders").then(res => {
-          this.Orders = res.data;
-      var length = this.Orders.length;
-      for (var i = 0; i < length; i++){
-        if (this.Orders[i].status === 0)
-        this.Orders[i].s = "进行中";
-        else if (this.Orders[i].status === 1)
-        this.Orders[i].s = "已完成";
-        else if (this.Orders[i].status === 2)
-        this.Orders[i].s = "已评价";
-      }
-    })
-    
     }
   }
   </script>

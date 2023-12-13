@@ -6,13 +6,7 @@
             <br>
             <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_2scs4mmv5kn.css">
             <span @click="linkToUserInfo()" class="sub"><i class="iconfont icon-person"></i>我的信息 <i class="iconfont icon-keyboard_arrow_right"></i></span>
-
-
-
             <span @click="linkToMyCollection()" class="sub"><i class="iconfont icon-check"></i>我的收藏 <i class="iconfont icon-keyboard_arrow_right"></i></span>
-
-
-
             <span @click="personalExpert()" class="sub"><i class="iconfont icon-person_add"></i>成为行家 <i class="iconfont icon-keyboard_arrow_right"></i></span>
             <el-dialog
             title="提交信息"
@@ -21,15 +15,8 @@
             :before-close="handleClose">
             <getQualification />
             </el-dialog>
-
-
             <span @click="MyExpertInfo" class="sub"><i class="iconfont icon-contacts"></i>我的行家信息 <i class="iconfont icon-keyboard_arrow_right"></i></span>
-
-
-
             <span class="sub" @click="linkToAboutUs()"><i class="iconfont icon-more_horiz"></i>关于我们 <i class="iconfont icon-keyboard_arrow_right"></i></span>
-
-
             <el-dialog
             :visible.sync="NotExpertVisible"
             width="95%"
@@ -49,7 +36,6 @@
               <span style="font-size:18px;">您已经是行家了！</span>
           </div>
             </el-dialog>
-
             <span class="sub" @click="linkToSpecialNotice()"><i class="iconfont icon-info"></i>特别声明 <i class="iconfont icon-keyboard_arrow_right"></i></span>
             </el-main>
           </el-container>

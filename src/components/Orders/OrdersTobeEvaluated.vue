@@ -114,9 +114,11 @@ data() {
       var data = new FormData();
       data.append("customer_id", this.userId);
       var config = {
-      method: 'post',
-        url: '/orderset/GetOrdersetByID',
-        data: data,
+      method: 'get',
+        url: '/order/GetOrderByID',
+        params: {
+          customer_id:this.userId
+        },
     }
       var res = await axios(config)
       return res;

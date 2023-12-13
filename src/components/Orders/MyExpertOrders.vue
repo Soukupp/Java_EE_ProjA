@@ -289,7 +289,7 @@ import Test4 from '../Test4.vue';
         console.log("这里的id是" + this.userId);
       var config = {
       method: 'post',
-          url: '/orderset/GetOrdersetByExpertID',
+          url: '/order/GetOrdersetByExpertID',
           
         data: data,
     }

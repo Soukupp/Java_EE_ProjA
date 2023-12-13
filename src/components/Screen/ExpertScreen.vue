@@ -220,8 +220,11 @@ export default {
   methods: {
     async queryData() {
       var config = {
-        method: 'post',
-        url: '/expert/getAll'
+        method: 'get',
+        url: '/expert/getAll',
+        params:{
+          type:1
+        }
       }
       var res = await axios(config)
       this.Experts = res.data.data
@@ -242,14 +245,15 @@ export default {
     },
 
     async changeView(index) {
+      console.log(index);
       const config = {
         url: '/expert/getAll',
         params: {
           type: index
         },
       }
-      axios.get(config).then(
-        function(res) {
+      axios(config).then(
+        (res)=> {
           this.Experts = res.data.data;
         }
       )
@@ -301,42 +305,11 @@ export default {
       }
     },
 
-
-
-    //从接口获取Topic信息，初始化给Topics
-    //点击某个Topic，获取到Topic的id，访问id对应的商品页面（把id给到商品详情页，由这个页面来发送请求给后端id，关注一下怎么传值吧！）
-
   },
   mounted() {
     this.queryData().then(res => {
       this.Experts = res.data.data;
     })
-
-    /*
-            for (var i = 0; i < that.length; i++)
-    {
-      var data=new FormData();;
-      data.append('expertId', that.Experts[i].phone);
-      console.log(data);
-    }
-    
-        var config1={
-            method: 'post',
-            url: '/topic/getById',
-            data: data
-        }
-          axios(config1)
-            .then(function (response) {
-              console.log(JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-              console.log(error);
-            });*/
-    /*
-        axios.get("https://www.fastmock.site/mock/edc8f6926e9ba279a9e6a85407dd71aa/PointedInquiry/AllExpert").then(res => {
-              this.Experts = res.data;
-          var length = this.Experts.length;
-            })*/
   }
 }
 </script>

@@ -116,9 +116,11 @@ data() {
       var data = new FormData();
       data.append("customer_id", this.userId);
       var config = {
-      method: 'post',
-        url: '/orderset/GetOrdersetByID',
-        data: data,
+      method: 'get',
+        url: '/order/GetOrderByID',
+        params: {
+          customer_id:this.userId
+        },
     }
       var res = await axios(config)
       return res;
@@ -126,23 +128,9 @@ data() {
 },
   mounted() {
     this.userId = localStorage.getItem('userId');
-    console.log("Order页面的userId是"+this.userId);
     this.queryData().then(res => {
       this.orders = res.data.data;
-      console.log(this.orders);
     })
-  axios.get("https://www.fastmock.site/mock/edc8f6926e9ba279a9e6a85407dd71aa/PointedInquiry/AllOrders").then(res => {
-    this.Orders = res.data;
-    var length = this.Orders.length;
-      for (var i = 0; i < length; i++){
-        if (this.Orders[i].status === 0)
-        this.Orders[i].s = "进行中";
-        else if (this.Orders[i].status === 1)
-        this.Orders[i].s = "待评价";
-        else if (this.Orders[i].status === 2)
-        this.Orders[i].s = "已评价";
-      }
-      })
   }
 }
 </script>
