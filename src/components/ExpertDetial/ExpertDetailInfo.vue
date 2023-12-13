@@ -43,7 +43,7 @@
                         <el-button @click="linkToMessages()" round>收藏行家</el-button>
                         <el-button @click="linkToConfirmOrder()" round>立即咨询</el-button>
                         <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
-                            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName"/>
+                            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName" @close="handleCloseEvent"/>
                         </el-dialog>
 
                         <el-dialog :visible.sync="HaveFavVisible" width="95%" :before-close="handleClose">
@@ -170,6 +170,11 @@ export default {
         };
     },
     methods: {
+        handleCloseEvent(data){
+            this.dialogVisible = data;
+            console.log(data);
+        }
+        ,
         linkToConfirmOrder() {
             this.dialogVisible = true;
         },

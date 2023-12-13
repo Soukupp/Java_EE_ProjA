@@ -29,7 +29,7 @@
         <div class="description">
           <div class="subdes">
             <span class="topic" v-for="(item, subIndex) in Experts[index].topic" :key="subIndex"><i
-                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ Experts[index].topic[subIndex].title }}<br></span>
+                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}<br></span>
           </div>
           <div>
             <span class="price">{{ Experts[index].price }}元/小时</span>

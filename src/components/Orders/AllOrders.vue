@@ -197,9 +197,7 @@ Vue.prototype.$message = Message;
       var data = new FormData();
       data.append("customer_id",this.userId);
       data.append("order_id", this.orders[index].orderId);
-      console.log(this.userId);
-      console.log(this.orders[index].orderId);
-
+      console.log("haidh");
       var config={
         method: 'post',
         url: '/order/ModifyOrderStatusToFinish',

@@ -20,11 +20,7 @@
       <div class="btns">
         <el-button @click="confirmOrder(index)">确认支付</el-button>
       </div>
-      <el-dialog title="订单创建成功！" width="95%" :visible.sync="ConfirmVisible" :before-close="handleClose">
-        <el-button primary @click="linkToOrder">确定</el-button>
-      </el-dialog>
     </div>
-
   </div>
 </template>
   
@@ -33,7 +29,7 @@ import axios from 'axios';
 export default {
   props: {
     "expert_id": { type: String, default: "" },
-    "name":{type:String, default:""}
+    "name": { type: String, default: "" }
   },
   data() {
     return {
@@ -60,7 +56,7 @@ export default {
       data.append("expert_id", this.expert_id);
       data.append("topic_id", this.topics[index].topicId);
       data.append("appoint_time", this.topics[index].appointTime);
-      data.append("price", this.topics[index].price);
+      data.append("price", parseInt(this.topics[index].price));
       var config = {
         method: 'post',
         url: '/order/CreateOrder',
@@ -68,8 +64,9 @@ export default {
       }
       var that = this;
       axios(config)
-        .then(function (response) {
-          that.ConfirmVisible = true;
+        .then((res)=> {
+          this.ConfirmVisible = false;
+          this.$emit('close',false);
         })
         .catch(function (error) {
           console.log(error);

@@ -57,6 +57,7 @@ export default {
             }
 
             this.score = Number((this.starIndex) * 2).toFixed(1);
+            this.$emit('score',this.score);
         }
 
     }
