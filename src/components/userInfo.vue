@@ -22,13 +22,13 @@
           </template>
           {{ name }}
         </el-descriptions-item>
-        <el-descriptions-item>
+        <!-- <el-descriptions-item>
           <template slot="label">
             <i class="el-icon-location-outline"></i>
             地区
           </template>
           {{ province }}{{ city }}
-        </el-descriptions-item>
+        </el-descriptions-item> -->
 
         <el-descriptions-item>
           <template slot="label">
@@ -37,13 +37,13 @@
           </template>
           {{ school }}
         </el-descriptions-item>
-        <el-descriptions-item>
+        <!-- <el-descriptions-item>
           <template slot="label">
             <i class="el-icon-date"></i>
             是否为行家
           </template>
           {{isExpert}}
-        </el-descriptions-item>
+        </el-descriptions-item> -->
       </el-descriptions>
     </el-card>
     </el-main>
