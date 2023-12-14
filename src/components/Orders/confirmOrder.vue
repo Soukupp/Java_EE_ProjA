@@ -73,7 +73,8 @@ export default {
         expert_id:this.expert_id,
         topic_id:this.topics[index].topicId,
         appoint_time:this.date_time,
-        price:this.topics[index].price,
+        // price:parseInt(this.topics[index].price),
+        price:350
       }
       var config = {
         method: 'post',
