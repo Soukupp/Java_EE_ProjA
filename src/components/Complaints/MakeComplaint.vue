@@ -20,7 +20,7 @@ import axios from "axios";
 import Test4 from "../Test4.vue";
 export default {
   props: {
-    "Order_id": { type: String, default: "0001" },
+    "order_id": { type: String, default: "0001" },
     "be_user_id":{ type: String, default: "0001" },
   },
   data() {
@@ -64,15 +64,10 @@ export default {
     },
 
     ConfirmComplaint() {
-      
-      console.log(this.Order_id);
-      console.log(this.be_user_id);
-      console.log(this.userId);
-      console.log(this.form.name);
-      console.log("直接跳转到订单页");
-      console.log("您已完成投诉！");//改成弹窗提示
+
+      this.userId = localStorage.getItem('userId');
       var data = new FormData();
-      data.append('Order_id', this.Order_id);
+      data.append('Order_id', this.order_id);
       data.append('user_id', this.userId);
       data.append('be_user_id', this.be_user_id);
       data.append('contents', this.form.name);
@@ -87,9 +82,7 @@ export default {
 
       axios(config)
         .then(function (response) {
-
-          console.log("response是" + JSON.stringify(response));
-          console.log("response.data是" + JSON.stringify(response.data));
+          that.$emit('visible',false);
         })
         .catch(function (error) {
           console.log(error);

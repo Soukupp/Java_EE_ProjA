@@ -16,102 +16,55 @@
                 <span class="price">{{orders[index].price}}元</span>
             </div>
             <div class="btns">
-              <el-button @click="getExpert(item,index)">查看行家</el-button>
-              <el-button @click="cancel(index)" v-if="orders[index].state=='进行中'">取消订单</el-button>
-              <el-button @click="confirm(index)" v-if="orders[index].state=='进行中'">完成订单</el-button>
-              <el-button @click="linkToComment(index)" v-else-if="orders[index].state =='已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state=='已评价'">投诉行家</el-button>
-              <el-dialog
-            title="取消订单"
-            :visible.sync="CancelVisible"
-            width="95%"
-            :before-close="handleClose">
-            <span>您确认要取消订单吗？</span><br><br><br>
-            <el-button primary @click="cancelNow(temp)">确定</el-button>
-            </el-dialog>
+              <el-button @click="getExpert(item, index)">查看行家</el-button>
+              <el-button @click="cancel(index)" v-if="orders[index].state == '进行中'">取消订单</el-button>
+              <el-button @click="confirm(index)" v-if="orders[index].state == '进行中'">完成订单</el-button>
+              <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
+              <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
+                <span>您确认要取消订单吗？</span><br><br><br>
+                <el-button primary @click="cancelNow(temp)">确定</el-button>
+              </el-dialog>
 
-            <el-dialog
-            title="完成订单"
-            :visible.sync="ConfirmVisible"
-            width="95%"
-            :before-close="handleClose">
-            <span>您确认订单已完成吗？</span><br><br><br>
-            <el-button primary @click="confirmFinish(temp)">确定</el-button>
-            </el-dialog>
+              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
+                <span>您确认订单已完成吗？</span><br><br><br>
+                <el-button primary @click="confirmFinish(temp)">确定</el-button>
+              </el-dialog>
+
+              
+              <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
+                <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
+                <el-rate v-model="mark" show-score ></el-rate>
+                <div style="margin-top: 20px;">
+                  <el-button @click="submitComment" type="primary">提交</el-button>
+                  <el-button @click="handleCancleEvent">取消</el-button>
+                </div>
+              </el-dialog>
 
 
-              <el-dialog
-            title="评价"
-            :visible.sync="CommentVisible"
-            width="95%"
-            :before-close="handleClose">
-            <!-- <MakeComment :order_id="orders[index].orderId" :expert_id="orders[index].expertId" :topic_id="orders[index].topicId"/> -->
-            <div>
-                <el-form :model="commentform">
-            <el-form-item label="评论内容" :label-width="formLabelWidth">
-              <el-input type="textarea" v-model="commentform.name" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-form>
-          <div style="margin-left:0px;">
-            <div style="float:right;">
-            <Test4></Test4>
-            <br>
+              <el-dialog title="投诉" :visible.sync="ComplaintVisible" width="85%" :before-close="handleClose">
+                <el-input type="textarea" v-model="complaintContent" placeholder="请输入您的意见"></el-input>
+                <div style="margin-top: 20px;">
+                  <el-button @click="submitComplaint" type="primary">提交</el-button>
+                  <el-button @click="handleCancleEvent">取消</el-button>
+                </div>
+              </el-dialog>
 
+
+            </div>
           </div>
 
-                  <div style="text-align:center;" slot="footer" class="dialog-footer">
-                    <br>
-                <br>
-                <br>
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="ConfirmComment(temp)">确 定</el-button>
-                  </div>
-            </div>
-            </div>
-          </el-dialog>
 
-            <el-dialog
-            title="投诉"
-            :visible.sync="ComplaintVisible"
-            width="95%"
-            :before-close="handleClose">
-                      <div>
-                <el-form :model="complaintform">
-            <el-form-item label="投诉内容" :label-width="formLabelWidth">
-              <el-input type="textarea" v-model="complaintform.name" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-form>
-          <div style="margin-left:0px;">
-                  <div style="text-align:center;" slot="footer" class="dialog-footer">
-                <br>
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="ConfirmComplaint(temp)">确 定</el-button>
-                  </div>
-            </div>
-              </div>
-            </el-dialog>
 
-            <el-dialog
-            :visible.sync="ComplaintFalseVisible"
-            width="95%"
-            :before-close="handleClose">
-            <span style="font-size:22px;">请勿重复投诉！</span>
-             </el-dialog>
+        </div>
 
-            </div>
-            </div>
-            
-            
-            
-          </div>
-  
-        </el-card>
-        
-      </div>
-      <br>
-        <br><br>
+      </el-card>
+
     </div>
-  </template>
+    <br>
+    <br><br>
+  </div>
+</template>
    
 <style scoped>
 .topic-span {
@@ -132,35 +85,39 @@
 
 }
 
-.el-button{
-  border-radius:10px;
+.el-button {
+  border-radius: 10px;
 }
-.price{
-  font-size:20px;
-  color:red;
-  float:right;
+
+.price {
+  font-size: 20px;
+  color: red;
+  float: right;
 }
-.topic{
-    padding:0px;
-    margin-top: 60px;
-    line-height: 28px;
+
+.topic {
+  padding: 0px;
+  margin-top: 60px;
+  line-height: 28px;
 }
-.state{
-  border-radius:4px;
-  text-align:center;
+
+.state {
+  border-radius: 4px;
+  text-align: center;
   line-height: 30px;
-  float:right;
-  color:forestgreen;
-  background-color:lightblue;
-  height:30px;
+  float: right;
+  color: forestgreen;
+  background-color: lightblue;
+  height: 30px;
 }
-.name{
-    color:black;
-    font-size:20px;
+
+.name {
+  color: black;
+  font-size: 20px;
 }
 </style>
 
-  <script>
+<script>
 import axios from 'axios';
 import { Message } from 'element-ui';
 import "element-ui/lib/theme-chalk/index.css";
@@ -169,7 +126,7 @@ import MakeComment from '../Comments/MakeComment.vue';
 import MakeComplaint from '../Complaints/MakeComplaint.vue';
 import Test4 from '../Test4.vue';
 Vue.prototype.$message = Message;
-  export default {
+export default {
   name: 'Evaluated',
   components: {
     MakeComment,
@@ -179,24 +136,98 @@ Vue.prototype.$message = Message;
   data() {
     return {
       Orders: [],
-      CommentVisible:false,
+      CommentVisible: false,
       ComplaintVisible: false,
       CancelVisible: false,
       ConfirmVisible: false,
       ComplaintFalseVisible: false,
       userId: "",
       orders: [],
-      temp: Number,
+      mark:0,
+      temp: 0,
       commentform: {
         name: '',
       },
       complaintform: {
-          name: '',
+        name: '',
       },
       formLabelWidth: '120px',
+      complaintContent:"",
+      commentContent:"",
+
     }
   },
   methods: {
+    submitComment(){
+      let data = new FormData();
+      let index = this.selectedIndex;
+      data.append('user_id', this.userId);
+      data.append('expert_id', this.orders[index].expertId);
+      data.append('topic_id', this.orders[index].topicId);
+      data.append('order_id', this.orders[index].orderId);
+      data.append('text', this.commentContent);
+      data.append('score', this.mark);
+      var config = {
+        method: 'post',
+        url: '/review/CreateReview',
+        data: data
+      };
+      axios(config)
+        .then(res=> {
+          if(res.data.status === 100){
+            this.$message({
+              message: '评价成功',
+              type: 'success'
+            });
+          }
+          else{
+            this.$message({
+              message: '评价失败',
+              type: 'error'
+            });
+          }
+
+          this.CommentVisible = false;
+          location.reload();
+        })
+    },
+    handleCancleEvent(){
+      this.ComplaintVisible = false;
+    },
+    submitComplaint(){
+      let userId = localStorage.getItem('userId');
+      let data = new FormData();
+      let index = this.selectedIndex;
+      data.append('Order_id', this.orders[index].orderId);
+      data.append('user_id', userId);
+      data.append('be_user_id', this.orders[index].expertId);
+      data.append('contents', this.complaintContent);
+
+      var config = {
+        method: 'post',
+        url: '/complaint/CreateComplaint',
+        data: data
+      };
+      axios(config)
+        .then((res) => {
+          if (res.data.data == 0) {
+            this.$message({
+              message: '请勿重复投诉',
+              type: 'warning'
+            });
+          }
+          else {
+            this.$message({
+              message: '投诉成功',
+              type: 'success'
+            });
+          }
+          this.ComplaintVisible = false;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     cancel(index) {
       this.CancelVisible = true;
       this.temp = index;
@@ -207,14 +238,14 @@ Vue.prototype.$message = Message;
     },
     confirmFinish(index) {
       var data = new FormData();
-      data.append("customer_id",this.userId);
+      data.append("customer_id", this.userId);
       data.append("order_id", this.orders[index].orderId);
       console.log("haidh");
-      var config={
+      var config = {
         method: 'post',
         url: '/order/ModifyOrderStatusToFinish',
         data: data
-    }
+      }
       axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
@@ -222,24 +253,24 @@ Vue.prototype.$message = Message;
         .catch(function (error) {
           console.log(error);
         });
-      
+
       this.ConfirmVisible = false;
       location.reload();
-      
+
     },
 
     cancelNow(index) {
       var data = new FormData();
-      data.append("customer_id",this.userId);
+      data.append("customer_id", this.userId);
       data.append("order_id", this.orders[index].orderId);
       console.log(this.userId);
       console.log(this.orders[index].orderId);
 
-      var config={
+      var config = {
         method: 'post',
         url: '/order/DeleteOrder',
         data: data
-    }
+      }
       axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
@@ -247,43 +278,45 @@ Vue.prototype.$message = Message;
         .catch(function (error) {
           console.log(error);
         });
-      
+
       this.ConfirmVisible = false;
       location.reload();
-      
+
     },
     getExpert(item, index) {
-        console.log(this.orders[index].expertId);
-        var id = this.orders[index].expertId;
-        this.$router.push( `/ExpertDetailInfo/${id}`);
+      console.log(this.orders[index].expertId);
+      var id = this.orders[index].expertId;
+      this.$router.push(`/ExpertDetailInfo/${id}`);
     },
     linkToComment(index) {
       this.CommentVisible = true;
       this.temp = index;
+      this.selectedIndex = index;
     },
     linkToComplaint(index) {
       this.ComplaintVisible = true;
       this.temp = index;
+      this.selectedIndex = index;
     },
     handleClose(done) {
-            done();
+      done();
     },
     async queryData() {
       console.log(this.userId);
       console.log(typeof(this.userId));
       var config = {
-      method: 'get',
+        method: 'get',
         url: '/order/GetOrderByID',
         params: {
-          customer_id:this.userId
+          customer_id: this.userId
         },
-    }
+      }
       var res = await axios(config)
       return res;
     },
     ConfirmComplaint(temp) {
       var data = new FormData();
-      
+
       data.append('Order_id', this.orders[temp].orderId);
       data.append('user_id', this.userId);
       data.append('be_user_id', this.orders[temp].expertId);
@@ -307,7 +340,7 @@ Vue.prototype.$message = Message;
           else {
             that.$message.success("投诉成功");
           }
-         // location.reload();
+          // location.reload();
           //this.$router.push('/Home');
         })
     },
@@ -363,9 +396,9 @@ Vue.prototype.$message = Message;
     this.queryData().then(res => {
       this.orders = res.data.data;
     })
-    }
   }
-  </script>
+}
+</script>
    
 
    

@@ -19,7 +19,7 @@
           ></el-input>
 
 
-<AreaChoose @custClick="getCity" />
+<!-- <AreaChoose @custClick="getCity" /> -->
 
             <br>
             <br>
