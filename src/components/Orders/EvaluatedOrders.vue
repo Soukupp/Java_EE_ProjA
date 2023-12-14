@@ -4,7 +4,7 @@
       <el-card :body-style="{ padding: '0px'}" v-if="orders[index].state=='已评价'" v-for="(item,index) in orders" :key="index">
           <div style="padding: 14px;" :key="index">
             <div>
-            <span class="name">{{orders[index].expertName}}&nbsp;&nbsp;</span>
+            <span class="name">{{orders[index].realName}}&nbsp;&nbsp;</span>
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
             </div>
