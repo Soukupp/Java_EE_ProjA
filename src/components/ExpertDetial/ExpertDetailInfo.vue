@@ -13,19 +13,19 @@
                     </div>
                     <div>
                         <br>
-                        <span class="subtitle">咨询话题</span>
-                        <div v-for="(item, index) in ExpertDetailInfo.topics" :key="'new' + index">
-                            <span class="topics"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
+                        <span class="subtitle"><i class="el-icon-chat-dot-round"></i>&nbsp;咨询话题</span>
+                        <div v-for="(item, index) in ExpertDetailInfo.topics" :key="'new' + index" class="topic-container">
+                            <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
                         </div>
                     </div>
                     <br>
                     <div>
-                        <span class="subtitle">个人简介</span>
+                        <span class="subtitle"><i class="el-icon-tickets"></i>&nbsp;个人简介</span>
                         <br>
                         <span>{{ ExpertDetailInfo.description }}</span>
                     </div>
                     <br>
-                    <span class="subtitle">用户评价</span>
+                    <span class="subtitle"><i class="el-icon-medal"></i>&nbsp;用户评价</span>
                     <el-card v-for="(item, index1) in comments" :key="index1">
 
                         <span>{{ item.userName }}</span>
@@ -40,20 +40,25 @@
                     </el-card>
                     <div class="btns">
                         <br>
-                        <el-button @click="linkToMessages()" round>收藏行家</el-button>
+                        <el-button
+                        @click="favoriteAction()"
+                        :class="favoriteClass"
+                        round
+                        >
+                        {{  favoriteText }}
+                        </el-button>
                         <el-button @click="linkToConfirmOrder()" round>立即咨询</el-button>
                         <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
                             <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName" @close="handleCloseEvent"/>
                         </el-dialog>
 
-                        <el-dialog :visible.sync="HaveFavVisible" width="95%" :before-close="handleClose">
+                        <!-- <el-dialog :visible.sync="HaveFavVisible" width="95%" :before-close="handleClose">
                             <span style="font-size:22px;">您已收藏过该专家！</span>
                         </el-dialog>
 
                         <el-dialog :visible.sync="NewFavVisible" width="95%" :before-close="handleClose">
                             <span style="font-size:22px;">收藏成功！</span>
-                        </el-dialog>
-
+                        </el-dialog> -->
                     </div>
                 </el-card>
             </el-main>
@@ -64,6 +69,33 @@
 
 
 <style scoped lang="less">
+.topic-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/deep/.favorited-button{
+  background-color: darkred; /* 自定义喜欢时按钮的背景颜色 */
+  color: white; 
+}
+
+/deep/.unfavorited-button{
+  background-color: darkgreen; /* 自定义喜欢时按钮的背景颜色 */
+  color: white; 
+}
+
+.topic-span {
+  width:100%;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:teal;
+  color: #fff;
+}
+
+
 .el-card {
     border-radius: 4px;
     border: 1px solid #EBEEF5;
@@ -167,9 +199,31 @@ export default {
             city: "",
             NewFavVisible: false,
             HaveFavVisible: false,
+            isFavorited:false
         };
     },
+    computed:{
+        favoriteClass() {
+            return {
+        'favorited-button': this.isFavorited === 1,
+        'unfavorited-button': this.isFavorited === 0,
+        };
+    },
+    favoriteText() {
+      return this.isFavorited === 0 ? '添加收藏' : '移除收藏';
+    },
+    },
     methods: {
+        getFavoriteMethod() {
+            return this.isFavorited === 0 ? this.addToFavorites : this.removeFromFavorites;
+        },
+        favoriteAction() {
+        // 动态调用绑定的方法
+        this.getFavoriteMethod()();
+        // 更新 isFavorited 的值
+        this.isFavorited = 1 - this.isFavorited;
+        },
+
         handleCloseEvent(data){
             this.dialogVisible = data;
             console.log(data);
@@ -178,7 +232,31 @@ export default {
         linkToConfirmOrder() {
             this.dialogVisible = true;
         },
-        linkToMessages() {
+        removeFromFavorites(){
+                console.log("移除收藏");
+                var data = new FormData();
+            data.append("phone", this.userId);
+            data.append("expert_id", this.expert_id);
+            var config = {
+                method: 'post',
+                url: '/favoritedirs-expert/DeleteDirsByUserid',
+                data: data,
+            }
+            axios(config).then(res => {
+                console.log(res.data.msg);
+                if (res.data.msg == "操作成功") {
+                    this.NewFavVisible = true;
+                }
+                else if (res.data.msg == "操作失败") {
+                    this.HaveFavVisible = true;
+                }
+            })
+        },
+        addToFavorites1()
+        {
+            console.log("添加收藏");
+        },
+        addToFavorites() {
             var data = new FormData();
             data.append("phone", this.userId);
             data.append("expert_id", this.expert_id);
@@ -196,7 +274,6 @@ export default {
                     this.HaveFavVisible = true;
                 }
             })
-
         },
         handleClose(done) {
             done();
@@ -282,6 +359,26 @@ export default {
             var res = await axios(config)
             return res;
         },
+
+
+
+        async isFavorite(){
+            var userId=localStorage.getItem('userId');
+            console.log('userId:'+userId);
+            var expertId = this.$route.params.id;
+            console.log('expertId:'+expertId);
+            var config={
+                method:'get',
+                url:'user/checkCollectDir',
+                params:{
+                    userId:userId,
+                    expertId:expertId
+                }
+            }
+            var res=await axios(config);
+            console.log("res.data" + res.data.data);
+            return res
+        }
     },
     mounted() {
         this.userId = localStorage.getItem('userId');
@@ -289,6 +386,11 @@ export default {
         var that = this;
         this.queryData().then(res => {
             that.ExpertDetailInfo = res.data.data;
+            console.log("详情评分："+that.ExpertDetailInfo.phone);
+        })
+        this.isFavorite().then(res => {
+            console.log("这个是回来的值："+res.data.data);
+            that.isFavorited = res.data.data;
         })
     }
 }

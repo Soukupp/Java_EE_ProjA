@@ -9,23 +9,28 @@
       <hr class="hr_solid">
 
       <br>
-          <el-card :body-style="{ padding: '0px'}" v-for="(item,index) in Experts" :key="index">
-            <div style="padding: 14px;" :key="index"  @click="linkToExpertDetail(item,index)">
-              <div>
-              <span class="name">{{Experts[index].realName}}&nbsp;&nbsp;</span>
-              <span class="title">{{Experts[index].title}}</span>
-              </div>
-              <div class="description" >   
-                <div class="subdes">
-                  <span class="topic" v-for="(item,subIndex) in Experts[index].topic" :key="subIndex"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ Experts[index].topic[subIndex].title }}<br></span>  
-                  </div>
-                <div>
-                <span class="type">&nbsp;&nbsp;{{ Experts[index].type }}&nbsp;&nbsp;</span> 
-                <span class="price">{{Experts[index].price}}元/小时</span>
-            </div>
-              </div>
-            </div>
-          </el-card>
+          <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in Experts" :key="index">
+      <div style="padding: 14px;" :key="index" @click="linkToExpertDetail(item, index)">
+        <div>
+          <span class="name">{{ Experts[index].realName }}&nbsp;&nbsp;</span>
+          <br>
+          <span class="title">{{ Experts[index].job }}</span>
+        </div>
+        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
+
+        <div class="description">
+          <span></span>
+          <div class="subdes">
+            
+            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><i
+                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}<br></span>
+          </div>
+          <div>
+            <span class="price">{{ Experts[index].price }}元/小时</span>
+          </div>
+        </div>
+      </div>
+    </el-card>
     </div>
 </el-main>
 </el-container>
@@ -83,6 +88,15 @@
     color:cadetblue;
     text-align: center;
     line-height: 24px;
+}
+
+/deep/.rate .el-rate__text{
+  font-size: 20px;
+}
+
+/deep/.rate .el-rate__icon{
+  font-size: 24px; /* 自定义星星图标大小 */
+  line-height: 24px; /* 保持星星图标居中 */
 }
 
 .line_01{
@@ -291,13 +305,13 @@ export default {
 
       async getExpertInfo(length) {
       for (var i = 0; i < length; i++)
-{
+  {
         var data=new FormData();
         data.append('userId', this.Experts[i].expertId);
         var config = {
-      method: 'post',
-      url: '/expert/getOne',
-      data:data
+          method: 'get',
+          url: '/expert/getOne',
+          data:data
         }
         var that = this;
       await axios(config)

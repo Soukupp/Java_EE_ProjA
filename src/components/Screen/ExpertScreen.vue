@@ -2,14 +2,15 @@
   <div class="bg">
     <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_f8oepiumx94.css">
     <div class="icons">
-      <span class="com"><i class="iconfont icon-shangyehezuo-copy"></i>
-        <div style="text-align:center;" @click="changeView(1)">心理</div>
+      <span class="com"  @click="changeView(1)"><i class="iconfont icon-shangyehezuo-copy"></i>
+        <div style="text-align:center;">心理</div>
       </span>
-      <span class="com" style="margin-left:50px;margin-right:50px;"><i class="iconfont icon-bianji_edit"></i>
-        <div style="text-align:center;" @click="changeView(2)">学业</div>
+      <span class="com" style="margin-left:50px;margin-right:50px;" @click="changeView(2)">
+        <i class="iconfont icon-bianji_edit"></i>
+        <div style="text-align:center;" >学业</div>
       </span>
-      <span class="com"><i class="iconfont icon-gongzuotai_workbench"></i>
-        <div style="text-align:center;" @click="changeView(3)">就业</div>
+      <span class="com" @click="changeView(3)"><i class="iconfont icon-gongzuotai_workbench"></i>
+        <div style="text-align:center;" >就业</div>
       </span>
     </div>
     <br>
@@ -24,15 +25,14 @@
           <br>
           <span class="title">{{ Experts[index].job }}</span>
         </div>
-        <Test5 :fatherScore="Experts[index].rating" class="rating" />
-
+        <br>
+        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
         <div class="description">
           <div class="subdes">
-            <span class="topic" v-for="(item, subIndex) in Experts[index].topic" :key="subIndex"><i
-                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}<br></span>
-          </div>
-          <div>
-            <span class="price">{{ Experts[index].price }}元/小时</span>
+            
+            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><br><i
+                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
+                <span class="price">{{ Experts[index].price }}元/小时</span>
           </div>
         </div>
       </div>
@@ -47,6 +47,14 @@
   float: right;
 }
 
+/deep/.rate .el-rate__text{
+  font-size: 20px;
+}
+
+/deep/.rate .el-rate__icon{
+  font-size: 24px; /* 自定义星星图标大小 */
+  line-height: 24px; /* 保持星星图标居中 */
+}
 
 .icons {
   border: 1px;
@@ -88,7 +96,8 @@
 .topic {
   padding: 0px;
   margin-top: 60px;
-  line-height: 28px;
+  line-height: 30px;
+  font-size:18px;
 }
 
 .type {
@@ -135,7 +144,6 @@
 }
 
 .subdes {
-  margin-top: 8px;
   font-size: 16px;
   margin-bottom: 0px;
 }
@@ -205,6 +213,7 @@ export default {
   ,
   data() {
     return {
+      givenValue:2.6,
       Experts: [],
       Topics: [],
       Price: [],

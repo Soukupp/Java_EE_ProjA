@@ -96,6 +96,16 @@ export default {
   text-align: left;
   margin-left: 15px;
 }
+.topic-span {
+  width:100%;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:teal;
+  color: #fff;
+}
 
 .el-aside {
   background-color: #333744;

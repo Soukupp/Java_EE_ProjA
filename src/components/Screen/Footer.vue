@@ -3,7 +3,7 @@
         <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_qlyozufzbpd.css">
 
     <el-tabs v-model="activeName"  type="card"  :stretch="true">
-    <el-tab-pane label="行家" name="first" ><span @click="linkToAllExpert()" slot="label"><i class="iconfont icon-icon-test4"></i>&nbsp;行家</span></el-tab-pane>
+    <el-tab-pane label="行家" name="first" ><span  @click="linkToAllExpert()" slot="label"><i class="iconfont icon-icon-test4"></i>&nbsp;行家</span></el-tab-pane>
     <el-tab-pane label="消息" name="second"><span  @click="linkToOrders()" slot="label"><i class="iconfont icon-icon-test1"></i>&nbsp;订单</span></el-tab-pane>
     <!-- <el-tab-pane label="订单" name="third"><span @click="linkToMessages()" slot="label"><i class="iconfont icon-icon-test"></i>&nbsp;消息</span></el-tab-pane> -->
     <el-tab-pane label="我的" name="third"><span @click="linkToUser()" slot="label"><i class="iconfont icon-icon-test3"></i>&nbsp;我的</span></el-tab-pane>
