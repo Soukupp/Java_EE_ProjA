@@ -22,27 +22,19 @@
               <el-button @click="getExpert(item, index)">查看行家</el-button>
               <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'">取消订单</el-button>
               <el-button @click="ConfirmVisible = true" v-if="orders[index].state == '进行中'">完成订单</el-button>
-              <el-button @click="linkToComment()" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
+              <el-button @click="linkToComment(), selectedIndex = index"
+                v-else-if="orders[index].state == '已完成'">评价订单</el-button>
               <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
 
-              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
-                <span>您确认要取消订单吗？</span><br><br><br>
-                <el-button primary>确定</el-button>
+              <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
+                <el-rate style="margin-bottom: 10px" v-model="mark" show-score></el-rate>
+                <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
+                <div style="margin-top: 20px;">
+                  <el-button @click="submitComment" type="primary">提交</el-button>
+                  <el-button @click="handleCancleEvent">取消</el-button>
+                </div>
               </el-dialog>
 
-              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
-                <span>您确认订单已完成吗？</span><br><br><br>
-                <el-button primary>确定</el-button>
-              </el-dialog>
-
-
-              <el-dialog title="评价" :visible.sync="CommentVisible" width="95%" :before-close="handleClose">
-                <MakeComment />
-              </el-dialog>
-
-              <el-dialog title="投诉" :visible.sync="ComplaintVisible" width="95%" :before-close="handleClose">
-                <MakeComplaint />
-              </el-dialog>
 
             </div>
           </div>
@@ -75,9 +67,49 @@ export default {
       ConfirmVisible: false,
       userId: "",
       orders: [],
+      commentContent: "",
+      mark: 0,
     }
   },
   methods: {
+    submitComment() {
+      let data = new FormData();
+      let index = this.selectedIndex;
+      data.append('user_id', this.userId);
+      data.append('expert_id', this.orders[index].expertId);
+      data.append('topic_id', this.orders[index].topicId);
+      data.append('order_id', this.orders[index].orderId);
+      data.append('text', this.commentContent);
+      data.append('score', this.mark);
+      var config = {
+        method: 'post',
+        url: '/review/CreateReview',
+        data: data
+      };
+      axios(config)
+        .then(res => {
+          if (res.data.status === 100) {
+            this.$message({
+              message: '评价成功',
+              type: 'success'
+            });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
+          }
+          else {
+            this.$message({
+              message: '评价失败',
+              type: 'error'
+            });
+          }
+
+          this.CommentVisible = false;
+        })
+    },
+    handleCancleEvent() {
+      this.CommentVisible = false;
+    },
     linkToCancel() {
       this.CancelVisible = true;
     },
@@ -107,12 +139,20 @@ export default {
       var res = await axios(config)
       return res;
     },
+    pullData(){
+      this.queryData().then(res => {
+      this.orders = res.data.data;
+    })
+    }
   },
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.queryData().then(res => {
       this.orders = res.data.data;
     })
+  },
+  activated(){
+    pullData();
   }
 }
 </script>

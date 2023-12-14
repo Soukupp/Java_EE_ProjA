@@ -96,9 +96,9 @@ export default {
       let userId = localStorage.getItem('userId');
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('Order_id', this.orders[index].orderId);
-      data.append('user_id', userId);
-      data.append('be_user_id', this.orders[index].expertId);
+      data.append('orderId', this.orders[index].orderId);
+      data.append('userId', userId);
+      data.append('beUserId', this.orders[index].expertId);
       data.append('contents', this.complaintContent);
 
       var config = {
@@ -163,12 +163,20 @@ export default {
       var res = await axios(config)
       return res;
     },
+    pullData(){
+      this.queryData().then(res => {
+      this.orders = res.data.data;
+    })
+    }
   },
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.queryData().then(res => {
       this.orders = res.data.data;
     })
+  },
+  activated(){
+    this.pullData();
   }
 }
 </script>

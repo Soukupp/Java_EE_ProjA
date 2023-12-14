@@ -21,23 +21,27 @@
               <el-button @click="confirm(index)" v-if="orders[index].state == '进行中'">完成订单</el-button>
               <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
               <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+
+
               <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
                 <span>您确认要取消订单吗？</span><br><br><br>
-                <el-button primary @click="cancelNow(temp)">确定</el-button>
+                <el-button  @click="cancelNow(temp)">确定</el-button>
+                <el-button type="primary" @click="handleCancleEvent3">我再想想</el-button>
               </el-dialog>
 
               <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
                 <span>您确认订单已完成吗？</span><br><br><br>
-                <el-button primary @click="confirmFinish(temp)">确定</el-button>
+                <el-button type="primary" @click="confirmFinish(temp)">确定</el-button>
+                <el-button @click="handleCancleEvent4">我再想想</el-button>
               </el-dialog>
 
               
               <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
+                <el-rate style="margin-bottom: 10px" v-model="mark" show-score ></el-rate>
                 <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
-                <el-rate v-model="mark" show-score ></el-rate>
                 <div style="margin-top: 20px;">
                   <el-button @click="submitComment" type="primary">提交</el-button>
-                  <el-button @click="handleCancleEvent">取消</el-button>
+                  <el-button @click="handleCancleEvent2">取消</el-button>
                 </div>
               </el-dialog>
 
@@ -146,6 +150,9 @@ export default {
     }
   },
   methods: {
+    handleCancleEvent4(){
+      this.ConfirmVisible = false;
+    },
     submitComment(){
       let data = new FormData();
       let index = this.selectedIndex;
@@ -167,6 +174,9 @@ export default {
               message: '评价成功',
               type: 'success'
             });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
           }
           else{
             this.$message({
@@ -174,10 +184,14 @@ export default {
               type: 'error'
             });
           }
-
           this.CommentVisible = false;
-          location.reload();
         })
+    },
+    handleCancleEvent3(){
+      this.CancelVisible = false;
+    },
+    handleCancleEvent2(){
+      this.CommentVisible = false;
     },
     handleCancleEvent(){
       this.ComplaintVisible = false;
@@ -186,9 +200,9 @@ export default {
       let userId = localStorage.getItem('userId');
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('Order_id', this.orders[index].orderId);
-      data.append('user_id', userId);
-      data.append('be_user_id', this.orders[index].expertId);
+      data.append('orderId', this.orders[index].orderId);
+      data.append('userId', userId);
+      data.append('beUserId', this.orders[index].expertId);
       data.append('contents', this.complaintContent);
 
       var config = {
@@ -203,6 +217,9 @@ export default {
               message: '请勿重复投诉',
               type: 'warning'
             });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
           }
           else {
             this.$message({
@@ -235,24 +252,34 @@ export default {
         data: data
       }
       axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
+        .then(res=>{
+          if (res.data.status == 100) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
+          }
+          else {
+            this.$message({
+              message: '操作失败',
+              type: 'error'
+            });
+          }
         })
         .catch(function (error) {
           console.log(error);
         });
 
       this.ConfirmVisible = false;
-      location.reload();
-
     },
 
     cancelNow(index) {
       var data = new FormData();
       data.append("customer_id", this.userId);
       data.append("order_id", this.orders[index].orderId);
-      console.log(this.userId);
-      console.log(this.orders[index].orderId);
 
       var config = {
         method: 'post',
@@ -260,15 +287,28 @@ export default {
         data: data
       }
       axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
+        .then((res)=>{
+          if (res.data.status === 100) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
+          }
+          else {
+            this.$message({
+              message: '操作失败',
+              type: 'error'
+            });
+          }
         })
         .catch(function (error) {
           console.log(error);
         });
 
-      this.ConfirmVisible = false;
-      location.reload();
+      this.CancelVisible = false;
 
     },
     getExpert(item, index) {
@@ -376,12 +416,21 @@ export default {
           //this.$router.push('/Home');
         })
     },
+    pullData(){
+      this.queryData().then(res => {
+      this.orders = res.data.data;
+      console.log("jhjjjihi")
+    })
+    }
   },
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.queryData().then(res => {
       this.orders = res.data.data;
     })
+  },
+  activated(){
+    this.pullData();
   }
 }
 </script>

@@ -3,20 +3,19 @@
     <Header />
     <el-container>
       <el-main style="height:710px;">
-        <el-tabs v-model="activeName" type="card" :stretch="true">
+        <el-tabs v-model="activeName" type="card" :stretch="true" @tab-click="handleClick">
           <el-tab-pane label="全部" name="first">
-            <AllOrders />
+            <AllOrders v-if="orderStatus.orderStatus1" />
           </el-tab-pane>
           <el-tab-pane label="进行中" name="second">
-            <OrdersInProgress />
+            <OrdersInProgress v-if="orderStatus.orderStatus2" />
           </el-tab-pane>
           <el-tab-pane label="已完成" name="third">
-            <OrdersTobeEvaluated />
+            <OrdersTobeEvaluated v-if="orderStatus.orderStatus3" />
           </el-tab-pane>
-          <el-tab-pane label="已评价" name="fourth">
-            <EvaluatedOrders />
+          <el-tab-pane label="已评价" name="forth">
+            <EvaluatedOrders v-if="orderStatus.orderStatus4" />
           </el-tab-pane>
-
         </el-tabs>
       </el-main>
     </el-container>
@@ -36,6 +35,12 @@ export default {
     return {
       activeName: 'first',
       num: "second",
+      orderStatus: {
+        orderStatus1: true,
+        orderStatus2: false,
+        orderStatus3: false,
+        orderStatus4: false
+      }
     };
   },
   components: {
@@ -47,6 +52,33 @@ export default {
     Footer,
     Header,
   },
+  methods: {
+    handleClick(tab) {
+      switch (tab.name) {
+        case 'first':
+          this.updateStatus('orderStatus1');
+          break;
+        case 'second':
+          this.updateStatus('orderStatus2');
+          break; 
+        case 'third':
+          this.updateStatus('orderStatus3');
+          break; 
+        case 'forth':
+          this.updateStatus('orderStatus4');
+          break;
+      }
+    },
+    updateStatus(name){
+      for(let key in this.orderStatus){
+        if(key == name){
+          this.orderStatus[key] = true;
+        }else{
+          this.orderStatus[key] = false;
+        }
+      }
+    }
+  }
 };
 </script>
   
@@ -108,4 +140,5 @@ export default {
 /deep/.home-container {
   height: 100vh;
   width: 70%;
-}</style>
+}
+</style>

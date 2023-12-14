@@ -1,61 +1,53 @@
 <template>
-  <div>    
+  <div>
     <div>
-      <el-card :body-style="{ padding: '0px'}" v-if="orders[index].state=='进行中'" v-for="(item,index) in orders" :key="index">
+      <el-card :body-style="{ padding: '0px' }" v-if="orders[index].state == '进行中'" v-for="(item, index) in orders"
+        :key="index">
         <div style="padding: 14px;" :key="index">
-            <div>
-            <span class="name">{{orders[index].realName}}&nbsp;&nbsp;</span>
+          <div>
+            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
-            </div>
-  
-            <div class="description" >
+          </div>
 
-              
-              <div class="subdes">
-                <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{orders[index].title}}</span>  
-                <br>
-                <span>{{orders[index].appointTime}}</span>
-                <span class="price">{{orders[index].price}}元</span>
+          <div class="description">
+
+
+            <div class="subdes">
+              <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
+              <br>
+              <span>{{ orders[index].appointTime }}</span>
+              <span class="price">{{ orders[index].price }}元</span>
             </div>
             <div class="btns">
-              <el-button @click="getExpert(item,index)">查看行家</el-button>
-              <el-button @click="CancelVisible=true" v-if="orders[index].state=='进行中'">取消订单</el-button>
-              <el-button @click="ConfirmVisible=true" v-if="orders[index].state=='进行中'">完成订单</el-button>
-              <el-button @click="linkToComment()" v-else-if="orders[index].state =='已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint()" v-else-if="orders[index].state=='已评价'">投诉行家</el-button>
+              <el-button @click="getExpert(item, index)">查看行家</el-button>
+              <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'">取消订单</el-button>
+              <el-button @click="ConfirmVisible = true, selectedIndex = index"
+                v-if="orders[index].state == '进行中'">完成订单</el-button>
+              <el-button @click="linkToComment()" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
+              <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
 
-              <el-dialog
-            title="取消订单"
-            :visible.sync="CancelVisible"
-            width="95%"
-            :before-close="handleClose">
-            <span>您确认要取消订单吗？</span><br><br><br>
-            <el-button primary>确定</el-button>
-            </el-dialog>
+              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
+                <span>您确认要取消订单吗？</span><br><br><br>
+                <el-button @click="cancleOrder(index)">确定</el-button>
+                <el-button type="primary" @click="handleCancleEvent">我再想想</el-button>
+              </el-dialog>
 
-            <el-dialog
-            title="完成订单"
-            :visible.sync="ConfirmVisible"
-            width="95%"
-            :before-close="handleClose">
-            <span>您确认订单已完成吗？</span><br><br><br>
-            <el-button type="primary" @click="handleCompleteEvent">确定</el-button>
-            <el-button @click="handleCloseEvent2">我再想想</el-button>
-            </el-dialog>
+              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
+                <span>您确认订单已完成吗？</span><br><br><br>
+                <el-button type="primary" @click="handleCompleteEvent">确定</el-button>
+                <el-button @click="handleCloseEvent2">我再想想</el-button>
+              </el-dialog>
 
             </div>
-            </div>
-            
-            
-            
           </div>
-  
-        </el-card>
-        
-      </div>
-      <br>
-        <br><br>
+        </div>
+
+      </el-card>
+
+    </div>
+    <br>
+    <br><br>
   </div>
 </template>
  
@@ -69,48 +61,46 @@ export default {
   name: 'Evaluated',
   components: {
     MakeComment,
-MakeComplaint,
+    MakeComplaint,
   },
-data() {
-  return {
-    Orders: [],
-    CommentVisible:false,
-    ComplaintVisible: false,
-    CancelVisible: false,
-    ConfirmVisible: false,
-    userId: "",
-    orders:[],
-    selectedIndex:0,
-  }
+  data() {
+    return {
+      Orders: [],
+      CommentVisible: false,
+      ComplaintVisible: false,
+      CancelVisible: false,
+      ConfirmVisible: false,
+      userId: "",
+      orders: [],
+      selectedIndex: 0,
+    }
   },
   methods: {
-    storeSelectedIndex(index){
-      this.selectedIndex= index;
-    },
-    handleCloseEvent2(){
-
-    },
-    handleCompleteEvent(){
+    cancleOrder(index){
       var data = new FormData();
       data.append("customer_id", this.userId);
-      data.append("order_id", this.orders[selectedIndex].orderId);
+      data.append("order_id", this.orders[index].orderId);
+
       var config = {
         method: 'post',
-        url: '/order/ModifyOrderStatusToFinish',
+        url: '/order/DeleteOrder',
         data: data
       }
       axios(config)
         .then(res=>{
-          if (res.data.data == 0) {
+          if (res.data.status == 100) {
             this.$message({
               message: '操作成功',
-              type: 'warning'
+              type: 'success'
             });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
           }
           else {
             this.$message({
               message: '操作失败',
-              type: 'success'
+              type: 'error'
             });
           }
         })
@@ -118,14 +108,58 @@ data() {
           console.log(error);
         });
 
-      this.ConfirmVisible = false;
-      location.reload();
-
+      this.CancelVisible = false;
+      this.queryData().then(res => {
+      this.orders = res.data.data;
+    })
+      
     },
+    handleCancleEvent(){
+      this.CancelVisible = false;
+    },
+    storeSelectedIndex(index) {
+      this.selectedIndex = index;
+    },
+    handleCloseEvent2() {
+      this.ConfirmVisible = false;
+    },
+    handleCompleteEvent() {
+      var data = new FormData();
+      data.append("customer_id", this.userId);
+      data.append("order_id", this.orders[this.selectedIndex].orderId);
+      var config = {
+        method: 'post',
+        url: '/order/ModifyOrderStatusToFinish',
+        data: data
+      }
+      axios(config)
+        .then(res => {
+          if (res.data.status == 100) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+            this.queryData().then(res => {
+              this.orders = res.data.data;
+            })
+          }
+          else {
+            this.$message({
+              message: '操作失败',
+              type: 'error'
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      this.ConfirmVisible = false;
+    },
+
     getExpert(item, index) {
-        console.log(this.orders[index].expertId);
-        var id = this.orders[index].expertId;
-        this.$router.push( `/ExpertDetailInfo/${id}`);
+      console.log(this.orders[index].expertId);
+      var id = this.orders[index].expertId;
+      this.$router.push(`/ExpertDetailInfo/${id}`);
     },
     linkToComment() {
       this.CommentVisible = true;
@@ -134,63 +168,75 @@ data() {
       this.ComplaintVisible = true;
     },
     handleClose(done) {
-            done();
+      done();
     },
     async queryData() {
       var data = new FormData();
       data.append("customer_id", this.userId);
       var config = {
-      method: 'get',
+        method: 'get',
         url: '/order/GetOrderByID',
         params: {
-          customer_id:this.userId
+          customer_id: this.userId
         },
-    }
+      }
       var res = await axios(config)
       return res;
     },
-},
+    pullData(){
+      this.queryData().then(res => {
+      this.orders = res.data.data;
+    })
+    }
+  },
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.queryData().then(res => {
       this.orders = res.data.data;
     })
+  },
+  activated(){
+    this.pullData();
   }
 }
 </script>
  
  
 <style scoped>
-.btns{
-  margin-top:20px;
-  text-align:center;
+.btns {
+  margin-top: 20px;
+  text-align: center;
 
 }
 
-.el-button{
-  border-radius:10px;
+.el-button {
+  border-radius: 10px;
 }
-.price{
-  font-size:20px;
-  color:red;
-  float:right;
+
+.price {
+  font-size: 20px;
+  color: red;
+  float: right;
 }
-.topic{
-    padding:0px;
-    margin-top: 60px;
-    line-height: 28px;
+
+.topic {
+  padding: 0px;
+  margin-top: 60px;
+  line-height: 28px;
 }
-.state{
-  border-radius:4px;
-  text-align:center;
+
+.state {
+  border-radius: 4px;
+  text-align: center;
   line-height: 30px;
-  float:right;
-  color:forestgreen;
-  background-color:lightblue;
-  height:30px;
+  float: right;
+  color: forestgreen;
+  background-color: lightblue;
+  height: 30px;
 }
-.name{
-    color:black;
-    font-size:20px;
+
+.name {
+  color: black;
+  font-size: 20px;
 }
 </style>
