@@ -40,24 +40,8 @@
             width="95%"
             :before-close="handleClose">
             <span>您确认订单已完成吗？</span><br><br><br>
-            <el-button primary>确定</el-button>
-            </el-dialog>
-
-
-              <el-dialog
-            title="评价"
-            :visible.sync="CommentVisible"
-            width="95%"
-            :before-close="handleClose">
-            <MakeComment />
-            </el-dialog>
-
-            <el-dialog
-            title="投诉"
-            :visible.sync="ComplaintVisible"
-            width="95%"
-            :before-close="handleClose">
-            <MakeComplaint />
+            <el-button type="primary" @click="handleCompleteEvent">确定</el-button>
+            <el-button @click="handleCloseEvent2">我再想想</el-button>
             </el-dialog>
 
             </div>
@@ -80,6 +64,7 @@
 import axios from 'axios';
 import MakeComment from '../Comments/MakeComment.vue';
 import MakeComplaint from '../Complaints/MakeComplaint.vue';
+import { Message } from 'element-ui';
 export default {
   name: 'Evaluated',
   components: {
@@ -95,9 +80,48 @@ data() {
     ConfirmVisible: false,
     userId: "",
     orders:[],
+    selectedIndex:0,
   }
   },
   methods: {
+    storeSelectedIndex(index){
+      this.selectedIndex= index;
+    },
+    handleCloseEvent2(){
+
+    },
+    handleCompleteEvent(){
+      var data = new FormData();
+      data.append("customer_id", this.userId);
+      data.append("order_id", this.orders[selectedIndex].orderId);
+      var config = {
+        method: 'post',
+        url: '/order/ModifyOrderStatusToFinish',
+        data: data
+      }
+      axios(config)
+        .then(res=>{
+          if (res.data.data == 0) {
+            this.$message({
+              message: '操作成功',
+              type: 'warning'
+            });
+          }
+          else {
+            this.$message({
+              message: '操作失败',
+              type: 'success'
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      this.ConfirmVisible = false;
+      location.reload();
+
+    },
     getExpert(item, index) {
         console.log(this.orders[index].expertId);
         var id = this.orders[index].expertId;

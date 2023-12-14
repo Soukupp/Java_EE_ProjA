@@ -64,9 +64,10 @@ export default {
     },
 
     ConfirmComplaint() {
-      
+
+      this.userId = localStorage.getItem('userId');
       var data = new FormData();
-      data.append('Order_id', this.Order_id);
+      data.append('Order_id', this.order_id);
       data.append('user_id', this.userId);
       data.append('be_user_id', this.be_user_id);
       data.append('contents', this.form.name);
@@ -81,9 +82,7 @@ export default {
 
       axios(config)
         .then(function (response) {
-
-          console.log("response是" + JSON.stringify(response));
-          console.log("response.data是" + JSON.stringify(response.data));
+          that.$emit('visible',false);
         })
         .catch(function (error) {
           console.log(error);
