@@ -20,7 +20,7 @@ import axios from "axios";
 import Test4 from "../Test4.vue";
 export default {
   props: {
-    "Order_id": { type: String, default: "0001" },
+    "order_id": { type: String, default: "0001" },
     "be_user_id":{ type: String, default: "0001" },
   },
   data() {
@@ -65,12 +65,6 @@ export default {
 
     ConfirmComplaint() {
       
-      console.log(this.Order_id);
-      console.log(this.be_user_id);
-      console.log(this.userId);
-      console.log(this.form.name);
-      console.log("直接跳转到订单页");
-      console.log("您已完成投诉！");//改成弹窗提示
       var data = new FormData();
       data.append('Order_id', this.Order_id);
       data.append('user_id', this.userId);

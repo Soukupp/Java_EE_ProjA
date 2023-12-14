@@ -57,7 +57,7 @@
             :visible.sync="ComplaintVisible"
             width="95%"
             :before-close="handleClose">
-            <MakeComplaint :Order_id="orders[index].orderId" :be_user_id="orders[index].expertId"/>
+            <MakeComplaint :order_id="orders[index].orderId" :be_user_id="orders[index].expertId"/>
             </el-dialog>
 
             </div>
