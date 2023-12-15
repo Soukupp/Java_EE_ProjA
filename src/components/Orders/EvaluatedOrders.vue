@@ -1,83 +1,127 @@
 <template>
   <div>
     <div>
-      <el-card :body-style="{ padding: '0px'}" v-if="orders[index].state=='已评价'" v-for="(item,index) in orders" :key="index">
-          <div style="padding: 14px;" :key="index">
-            <div>
-            <span class="name">{{orders[index].realName}}&nbsp;&nbsp;</span>
-            <span :class="{
-              'state1': orders[index].state === '已评价',
-              'state2': orders[index].state === '进行中',
-              'state3': orders[index].state === '已完成'
-            }">
+      <el-card
+        :body-style="{ padding: '0px' }"
+        v-if="orders[index].state == '已评价'"
+        v-for="(item, index) in orders"
+        :key="index"
+      >
+        <div style="padding: 14px" :key="index">
+          <div>
+            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
+            <span
+              :class="{
+                state1: orders[index].state === '已评价',
+                state2: orders[index].state === '进行中',
+                state3: orders[index].state === '已完成',
+              }"
+            >
               {{ orders[index].state }}
             </span>
-            <br>
+            <br />
           </div>
 
           <div class="description">
-
-
             <div class="subdes">
-              <div class="topic-span">{{"#"+ orders[index].title }}</div>
-              <span style="color: grey; font-size: 13px;">咨询时间：{{ orders[index].appointTime }}</span>
+              <div class="topic-span">{{ "#" + orders[index].title }}</div>
+              <span style="color: grey; font-size: 13px"
+                >咨询时间：{{ orders[index].appointTime }}</span
+              >
               <span class="price">{{ orders[index].price }}元/小时</span>
             </div>
             <div class="btns">
               <el-button @click="getExpert(item, index)">查看行家</el-button>
-              <el-button @click="cancel(index)" v-if="orders[index].state == '进行中'">取消订单</el-button>
-              <el-button @click="confirm(index)" v-if="orders[index].state == '进行中'">完成订单</el-button>
-              <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+              <el-button
+                @click="cancel(index)"
+                v-if="orders[index].state == '进行中'"
+                >取消订单</el-button
+              >
+              <el-button
+                @click="confirm(index)"
+                v-if="orders[index].state == '进行中'"
+                >完成订单</el-button
+              >
+              <el-button
+                @click="linkToComment(index)"
+                v-else-if="orders[index].state == '已完成'"
+                >评价订单</el-button
+              >
+              <el-button
+                @click="linkToComplaint(index)"
+                v-else-if="orders[index].state == '已评价'"
+                >投诉行家</el-button
+              >
 
-              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
-                <span>您确认要取消订单吗？</span><br><br><br>
+              <el-dialog
+                title="取消订单"
+                :visible.sync="CancelVisible"
+                width="95%"
+                :before-close="handleClose"
+              >
+                <span>您确认要取消订单吗？</span><br /><br /><br />
                 <el-button primary @click="cancelNow(temp)">确定</el-button>
               </el-dialog>
 
-              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
-                <span>您确认订单已完成吗？</span><br><br><br>
+              <el-dialog
+                title="完成订单"
+                :visible.sync="ConfirmVisible"
+                width="95%"
+                :before-close="handleClose"
+              >
+                <span>您确认订单已完成吗？</span><br /><br /><br />
                 <el-button primary @click="confirmFinish(temp)">确定</el-button>
               </el-dialog>
 
-              <el-dialog title="评价" :visible.sync="CommentVisible" width="95%" :before-close="handleClose">
-                <MakeComment :order_id="orders[index].orderId" :expert_id="orders[index].expertId"
-                  :topic_id="orders[index].topicId" />
-
+              <el-dialog
+                title="评价"
+                :visible.sync="CommentVisible"
+                width="95%"
+                :before-close="handleClose"
+              >
+                <MakeComment
+                  :order_id="orders[index].orderId"
+                  :expert_id="orders[index].expertId"
+                  :topic_id="orders[index].topicId"
+                />
               </el-dialog>
 
-              <el-dialog title="投诉" :visible.sync="ComplaintVisible" width="85%" :before-close="handleClose">
-                <el-input type="textarea" v-model="complaintContent" placeholder="请输入您的意见"></el-input>
-                <div style="margin-top: 20px;">
-                  <el-button @click="submitComplaint" type="primary">提交</el-button>
+              <el-dialog
+                title="投诉"
+                :visible.sync="ComplaintVisible"
+                width="85%"
+                :before-close="handleClose"
+              >
+                <el-input
+                  type="textarea"
+                  v-model="complaintContent"
+                  placeholder="请输入您的意见"
+                ></el-input>
+                <div style="margin-top: 20px">
+                  <el-button @click="submitComplaint" type="primary"
+                    >提交</el-button
+                  >
                   <el-button @click="handleCancleEvent">取消</el-button>
                 </div>
               </el-dialog>
-
             </div>
           </div>
-
-
-
         </div>
-
       </el-card>
-
     </div>
-    <br>
-    <br><br>
+    <br />
+    <br /><br />
   </div>
 </template>
- 
- 
+
 <script>
-import axios from 'axios';
-import { Message } from 'element-ui';
-import MakeComment from '../Comments/MakeComment.vue';
-import MakeComplaint from '../Complaints/MakeComplaint.vue';
+import axios from "axios";
+import { Message } from "element-ui";
+import MakeComment from "../Comments/MakeComment.vue";
+import MakeComplaint from "../Complaints/MakeComplaint.vue";
 
 export default {
-  name: 'Evaluated',
+  name: "Evaluated",
   components: {
     MakeComment,
     MakeComplaint,
@@ -93,37 +137,35 @@ export default {
       orders: [],
       selectedIndex: 0,
       complaintContent: "",
-    }
+    };
   },
   methods: {
     submitComplaint() {
-      let userId = localStorage.getItem('userId');
+      let userId = localStorage.getItem("userId");
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('orderId', this.orders[index].orderId);
-      data.append('userId', userId);
-      data.append('beUserId', this.orders[index].expertId);
-      data.append('contents', this.complaintContent);
+      data.append("orderId", this.orders[index].orderId);
+      data.append("userId", userId);
+      data.append("beUserId", this.orders[index].expertId);
+      data.append("contents", this.complaintContent);
 
       var config = {
-        method: 'post',
-        url: '/complaint/CreateComplaint',
-        data: data
+        method: "post",
+        url: "/complaint/CreateComplaint",
+        data: data,
       };
-
 
       axios(config)
         .then((res) => {
           if (res.data.data == 0) {
             this.$message({
-              message: '请勿重复投诉',
-              type: 'warning'
+              message: "请勿重复投诉",
+              type: "warning",
             });
-          }
-          else {
+          } else {
             this.$message({
-              message: '投诉成功',
-              type: 'success'
+              message: "投诉成功",
+              type: "success",
             });
           }
           this.ComplaintVisible = false;
@@ -131,8 +173,7 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
-    ,
+    },
     handleCancleEvent() {
       this.ComplaintVisible = false;
     },
@@ -141,9 +182,7 @@ export default {
       var id = this.orders[index].expertId;
       this.$router.push(`/ExpertDetailInfo/${id}`);
     },
-    cancle(index) {
-
-    },
+    cancle(index) {},
     linkToComment() {
       this.CommentVisible = true;
     },
@@ -158,34 +197,33 @@ export default {
       var data = new FormData();
       data.append("customer_id", this.userId);
       var config = {
-        method: 'get',
-        url: '/order/GetOrderByID',
+        method: "get",
+        url: "/order/GetOrderByID",
         params: {
-          customer_id: this.userId
+          customerId: this.userId,
         },
-      }
-      var res = await axios(config)
+      };
+      var res = await axios(config);
       return res;
     },
-    pullData(){
-      this.queryData().then(res => {
-      this.orders = res.data.data;
-    })
-    }
+    pullData() {
+      this.queryData().then((res) => {
+        this.orders = res.data.data;
+      });
+    },
   },
   mounted() {
-    this.userId = localStorage.getItem('userId');
-    this.queryData().then(res => {
+    this.userId = localStorage.getItem("userId");
+    this.queryData().then((res) => {
       this.orders = res.data.data;
-    })
+    });
   },
-  activated(){
+  activated() {
     this.pullData();
-  }
-}
+  },
+};
 </script>
 
- 
 <style scoped>
 .topic-span {
   width: fit-content;
@@ -196,13 +234,12 @@ export default {
   cursor: pointer;
   background-color: rgba(0, 128, 92, 0.573);
   color: #fff;
-  margin: 10px 0
+  margin: 10px 0;
 }
 
-.btns{
-  margin-top:20px;
-  text-align:center;
-
+.btns {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .el-button {
@@ -237,7 +274,7 @@ export default {
   color: black;
   font-size: 20px;
 }
-.state1{
+.state1 {
   border-radius: 100px;
   font-size: small;
   color: green;
@@ -246,17 +283,17 @@ export default {
   padding: 2px 6px;
   background-color: rgba(0, 128, 0, 0.35);
 }
-.state2{
+.state2 {
   border-radius: 100px;
   font-size: small;
   color: rgb(17, 80, 174);
   float: right;
   font-weight: bold;
   padding: 2px 6px;
-  background-color: rgb(17, 80, 174,0.35);
+  background-color: rgb(17, 80, 174, 0.35);
 }
 
-.state3{
+.state3 {
   border-radius: 100px;
   font-size: small;
   color: orange;

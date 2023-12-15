@@ -344,10 +344,10 @@ import Test4 from '../Test4.vue';
       console.log("直接跳转到订单页");
       console.log("您已完成投诉！");//改成弹窗提示
       var data = new FormData();
-      data.append('user_id', this.userId);
-      data.append('expert_id', this.orders[temp].expertId);
-      data.append('topic_id', this.orders[temp].topicId);
-      data.append('order_id', this.orders[temp].orderId);
+      data.append('userId', this.userId);
+      data.append('expertId', this.orders[temp].expertId);
+      data.append('topicId', this.orders[temp].topicId);
+      data.append('orderId', this.orders[temp].orderId);
       data.append('text', this.commentform.name);
       data.append('score', 8);
       var config = {

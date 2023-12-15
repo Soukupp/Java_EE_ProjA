@@ -178,7 +178,7 @@ export default {
         method: 'get',
         url: '/order/GetOrderByID',
         params: {
-          customer_id: this.userId
+          customerId: this.userId
         },
       }
       var res = await axios(config)
