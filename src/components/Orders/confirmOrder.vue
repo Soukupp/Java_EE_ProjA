@@ -59,7 +59,7 @@ export default {
   },
   mounted() {
     this.userId = localStorage.getItem('userId');
-    this.getTopics();
+    //this.getTopics();
     this.getName();
   },
   methods: {
@@ -94,16 +94,28 @@ export default {
     },
     async getName() {
       var data = new FormData();
-      data.append("userId", this.expert_id);
+      data.append("expertId", this.expert_id);
       var config = {
-        method: 'post',
+        method: 'get',
         url: '/expert/getOne',
-        data: data
+        params: {
+          expertId: this.expert_id
+        },
       }
+      // var config = {
+      //   method: 'get',
+      //   url: '/order/GetOrderByID',
+      //   params: {
+      //     customerId: this.userId
+      //   },
+      // }
       var that = this;
       await axios(config)
         .then(function (response) {
+          console.log(response.data.data.realName);
+          console.log(response.data.data.topics);
           that.name = response.data.data.realName;
+          that.topics=response.data.data.topics;
         })
         .catch(function (error) {
           console.log(error);

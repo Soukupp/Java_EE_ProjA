@@ -58,7 +58,7 @@
                         </el-button>
                         <el-button @click="linkToConfirmOrder()" round>立即咨询</el-button>
                         <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
-                            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName"
+                            <confirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName"
                                 @close="handleCloseEvent" />
                         </el-dialog>
 
@@ -252,7 +252,7 @@ export default {
             console.log("移除收藏");
             var data = new FormData();
             data.append("phone", this.userId);
-            data.append("expert_id", this.expert_id);
+            data.append("expertId", this.expert_id);
             var config = {
                 method: 'post',
                 url: '/favoritedirs-expert/DeleteDirsByUserid',
@@ -268,13 +268,10 @@ export default {
                 }
             })
         },
-        addToFavorites1() {
-            console.log("添加收藏");
-        },
         addToFavorites() {
             var data = new FormData();
             data.append("phone", this.userId);
-            data.append("expert_id", this.expert_id);
+            data.append("expertId", this.expert_id);
             var config = {
                 method: 'post',
                 url: '/favoritedirs-expert/CreateDirsByUserid',
@@ -397,14 +394,15 @@ export default {
     },
     mounted() {
         this.userId = localStorage.getItem('userId');
+        console.log("userId:"+this.userId);
         this.expert_id = this.$route.params.id;
+        console.log("expert_id:"+this.expert_id);
         var that = this;
         this.queryData().then(res => {
             that.ExpertDetailInfo = res.data.data;
             console.log("详情评分：" + that.ExpertDetailInfo.phone);
         })
         this.isFavorite().then(res => {
-            console.log("这个是回来的值：" + res.data.data);
             that.isFavorited = res.data.data;
         })
     }
