@@ -15,7 +15,8 @@
                         <br>
                         <span class="subtitle"><i class="el-icon-chat-dot-round"></i>&nbsp;咨询话题</span>
                         <div v-for="(item, index) in ExpertDetailInfo.topics" :key="'new' + index" class="topic-container">
-                            <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
+                            <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ item.title
+                            }}</span>
                         </div>
                     </div>
                     <br>
@@ -26,30 +27,40 @@
                     </div>
                     <br>
                     <span class="subtitle"><i class="el-icon-medal"></i>&nbsp;用户评价</span>
-                    <el-card v-for="(item, index1) in comments" :key="index1">
+                    <el-card v-for="(item, index1) in ExpertDetailInfo.reviews" :key="index1">
 
-                        <span>{{ item.userName }}</span>
-
-                        <span style="float:right;">{{ item.year }}/{{ item.month }}/{{ item.day }}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="../../img/avatar.svg" style="width: 30px; height: 30px;" />
+                                <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                                    <div style="font-weight: bolder; display: flex; align-items: center;">
+                                        {{ item.userId }}
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; font-size: 12px; color: rgb(163, 162, 162)">
+                                        {{ item.time }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left: auto;">
+                                <el-rate v-model="item.score" disabled></el-rate>
+                            </div>
+                        </div>
                         <br>
-                        <div style="margin-top:12px; margin-bottom:8px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                        <div >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
                             item.text }}</div>
                         <div style="float:right; margin-bottom:8px;">
-                            <Test5 :fatherScore="item.score" />
                         </div>
                     </el-card>
                     <div class="btns">
                         <br>
-                        <el-button
-                        @click="favoriteAction()"
-                        :class="favoriteClass"
-                        round
-                        >
-                        {{  favoriteText }}
+                        <el-button @click="favoriteAction()" :class="favoriteClass" round>
+                            {{ favoriteText }}
                         </el-button>
                         <el-button @click="linkToConfirmOrder()" round>立即咨询</el-button>
                         <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
-                            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName" @close="handleCloseEvent"/>
+                            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName"
+                                @close="handleCloseEvent" />
                         </el-dialog>
 
                         <!-- <el-dialog :visible.sync="HaveFavVisible" width="95%" :before-close="handleClose">
@@ -70,29 +81,36 @@
 
 <style scoped lang="less">
 .topic-container {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-/deep/.favorited-button{
-  background-color: darkred; /* 自定义喜欢时按钮的背景颜色 */
-  color: white; 
+/deep/.favorited-button {
+    background-color: darkred;
+    /* 自定义喜欢时按钮的背景颜色 */
+    color: white;
 }
 
-/deep/.unfavorited-button{
-  background-color: darkgreen; /* 自定义喜欢时按钮的背景颜色 */
-  color: white; 
+/deep/.unfavorited-button {
+    background-color: darkgreen;
+    /* 自定义喜欢时按钮的背景颜色 */
+    color: white;
+}
+
+/deep/ .el-rate__icon {
+    font-size: 15px;
+    margin-right: 0px;
 }
 
 .topic-span {
-  width:100%;
-  padding: 8px;
-  margin: 4px;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color:teal;
-  color: #fff;
+    width:fit-content;
+    padding:2px 8px;
+    margin: 4px;
+    border-radius: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgba(0, 128, 92, 0.573);
+    color: #fff;
 }
 
 
@@ -199,32 +217,32 @@ export default {
             city: "",
             NewFavVisible: false,
             HaveFavVisible: false,
-            isFavorited:false
+            isFavorited: false
         };
     },
-    computed:{
+    computed: {
         favoriteClass() {
             return {
-        'favorited-button': this.isFavorited === 1,
-        'unfavorited-button': this.isFavorited === 0,
-        };
-    },
-    favoriteText() {
-      return this.isFavorited === 0 ? '添加收藏' : '移除收藏';
-    },
+                'favorited-button': this.isFavorited === 1,
+                'unfavorited-button': this.isFavorited === 0,
+            };
+        },
+        favoriteText() {
+            return this.isFavorited === 0 ? '添加收藏' : '移除收藏';
+        },
     },
     methods: {
         getFavoriteMethod() {
             return this.isFavorited === 0 ? this.addToFavorites : this.removeFromFavorites;
         },
         favoriteAction() {
-        // 动态调用绑定的方法
-        this.getFavoriteMethod()();
-        // 更新 isFavorited 的值
-        this.isFavorited = 1 - this.isFavorited;
+            // 动态调用绑定的方法
+            this.getFavoriteMethod()();
+            // 更新 isFavorited 的值
+            this.isFavorited = 1 - this.isFavorited;
         },
 
-        handleCloseEvent(data){
+        handleCloseEvent(data) {
             this.dialogVisible = data;
             console.log(data);
         }
@@ -232,9 +250,9 @@ export default {
         linkToConfirmOrder() {
             this.dialogVisible = true;
         },
-        removeFromFavorites(){
-                console.log("移除收藏");
-                var data = new FormData();
+        removeFromFavorites() {
+            console.log("移除收藏");
+            var data = new FormData();
             data.append("phone", this.userId);
             data.append("expert_id", this.expert_id);
             var config = {
@@ -252,8 +270,7 @@ export default {
                 }
             })
         },
-        addToFavorites1()
-        {
+        addToFavorites1() {
             console.log("添加收藏");
         },
         addToFavorites() {
@@ -362,20 +379,20 @@ export default {
 
 
 
-        async isFavorite(){
-            var userId=localStorage.getItem('userId');
-            console.log('userId:'+userId);
+        async isFavorite() {
+            var userId = localStorage.getItem('userId');
+            console.log('userId:' + userId);
             var expertId = this.$route.params.id;
-            console.log('expertId:'+expertId);
-            var config={
-                method:'get',
-                url:'user/checkCollectDir',
-                params:{
-                    userId:userId,
-                    expertId:expertId
+            console.log('expertId:' + expertId);
+            var config = {
+                method: 'get',
+                url: 'user/checkCollectDir',
+                params: {
+                    userId: userId,
+                    expertId: expertId
                 }
             }
-            var res=await axios(config);
+            var res = await axios(config);
             console.log("res.data" + res.data.data);
             return res
         }
@@ -386,10 +403,10 @@ export default {
         var that = this;
         this.queryData().then(res => {
             that.ExpertDetailInfo = res.data.data;
-            console.log("详情评分："+that.ExpertDetailInfo.phone);
+            console.log("详情评分：" + that.ExpertDetailInfo.phone);
         })
         this.isFavorite().then(res => {
-            console.log("这个是回来的值："+res.data.data);
+            console.log("这个是回来的值：" + res.data.data);
             that.isFavorited = res.data.data;
         })
     }

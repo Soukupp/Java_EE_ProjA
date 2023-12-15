@@ -161,15 +161,14 @@ export default {
 <style scoped>
 
 .topic-span {
-  width:100%;
-  line-height: 36px;
-  padding: 4px;
-  margin: 1px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color:teal;
-  color: #fff;
+    width:fit-content;
+    padding:2px 8px;
+    margin: 4px;
+    border-radius: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgba(0, 128, 92, 0.573);
+    color: #fff;
 }
 
 .btns {
