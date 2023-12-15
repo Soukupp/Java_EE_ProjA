@@ -1,8 +1,5 @@
 <template>
   <div>
-    <span class="name">&nbsp;行家：{{ name }}&nbsp; </span>
-    <br>
-    <br>
     <span>选择话题&nbsp;&nbsp;</span>
     <el-select v-model="value" placeholder="请选择">
       <el-option v-for="item in topics" :key="item.topicId" :label="item.title" :value="item.order">
@@ -11,26 +8,21 @@
     <br>
     <div v-for="(item, index) in topics" :key="item.topicId" v-if="index === value" class="inFo" style="">
       <span>咨询详情</span><br><br>
-      <el-card>
-        <span>价格: {{ item.price }}元</span>
-        <br>
-        <span>方式: {{ item.way }}</span>
-        <el-date-picker
-          v-model="date_time"
-          type="datetime"
-          placeholder="预约咨询时间"
-          :picker-options="pickerOptions"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          minTime="9:00"
-          maxTime="16:00"
-        >
-        </el-date-picker>
+      <el-card style="justify-content: center;">
+        <el-form>
+          <el-form-item label="每小时咨询价格">{{item.price}}</el-form-item>
+          <el-form-item label="咨询方式">{{ item.way }}</el-form-item>
+          <el-date-picker v-model="date_time" type="datetime" placeholder="预约咨询时间" :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm:ss" minTime="9:00" maxTime="16:00">
+          </el-date-picker>
+        </el-form>
       </el-card>
       <br>
       <div class="btns">
         <el-button @click="confirmOrder(index)">确认支付</el-button>
       </div>
-      <el-dialog title="订单创建成功！" width="95%" :visible.sync="ConfirmVisible" :before-close="handleClose" :modal-append-to-body="false">
+      <el-dialog title="订单创建成功！" width="95%" :visible.sync="ConfirmVisible" :before-close="handleClose"
+        :modal-append-to-body="false">
         <el-button primary @click="linkToOrder">确定</el-button>
       </el-dialog>
     </div>
@@ -46,7 +38,7 @@ export default {
   },
   data() {
     return {
-      pickerOptions:{
+      pickerOptions: {
         disabledDate(time) {
           // 禁用过去的日期和大于七天后的日期
           const today = new Date();
@@ -54,7 +46,7 @@ export default {
           sevenDaysLater.setDate(today.getDate() + 7);
           return time.getTime() < today.getTime() || time.getTime() > sevenDaysLater.getTime();
         },
-        selectableRange:'09:00:00 - 16:00:00'
+        selectableRange: '09:00:00 - 16:00:00'
       },
       value: '',
       topics: [],
@@ -62,7 +54,7 @@ export default {
       userId: "",
       name: "",
       ConfirmVisible: false,
-      date_time:''
+      date_time: ''
     }
   },
   mounted() {
@@ -75,12 +67,12 @@ export default {
       this.$router.push('/OrdersScreen');
     },
     confirmOrder(index) {
-      var data={
-        customer_id:this.userId,
-        expert_id:this.expert_id,
-        topic_id:this.topics[index].topicId,
-        appoint_time:this.date_time,
-        price:this.topics[index].price,
+      var data = {
+        customer_id: this.userId,
+        expert_id: this.expert_id,
+        topic_id: this.topics[index].topicId,
+        appoint_time: this.date_time,
+        price: this.topics[index].price,
       }
       var config = {
         method: 'post',
@@ -89,9 +81,9 @@ export default {
       }
       var that = this;
       axios(config)
-        .then((res)=> {
-          that.ConfirmVisible = true;  
-         // that.$emit('close',false);
+        .then((res) => {
+          that.ConfirmVisible = true;
+          // that.$emit('close',false);
         })
         .catch(function (error) {
           console.log(error);
@@ -151,8 +143,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 .btns {
   text-align: center;
 }

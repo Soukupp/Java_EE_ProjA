@@ -16,11 +16,9 @@
           </div>
           <div class="description">
             <div class="subdes">
-              <span class="topic-span"><i
-                  style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
-              <br>
+              <div class="topic-span">{{ "#"+orders[index].title }}</div>
               <span style="color: grey; font-size: 13px;">咨询时间：{{ orders[index].appointTime }}</span>
-              <span class="price">{{ orders[index].price }}元</span>
+              <span class="price">{{ orders[index].price }}元/小时</span>
             </div>
             <div class="btns">
               <el-button @click="getExpert(item, index)">查看行家</el-button>
@@ -80,10 +78,10 @@
 <style scoped>
 .topic-span {
   width: fit-content;
-  padding: 2px 8px;
+  padding: 2px 10px;
   margin: 4px;
   border-radius: 100px;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   background-color: rgba(0, 128, 92, 0.573);
   color: #fff;
@@ -101,8 +99,8 @@
 }
 
 .price {
-  font-size: 20px;
-  color: red;
+  font-size: 17px;
+  color: rgb(230, 0, 0);
   float: right;
 }
 

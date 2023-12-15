@@ -15,8 +15,7 @@
                         <br>
                         <span class="subtitle"><i class="el-icon-chat-dot-round"></i>&nbsp;咨询话题</span>
                         <div v-for="(item, index) in ExpertDetailInfo.topics" :key="'new' + index" class="topic-container">
-                            <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ item.title
-                            }}</span>
+                            <span class="topic-span">{{ "#"+item.title}}</span>
                         </div>
                     </div>
                     <br>
@@ -104,11 +103,10 @@
 
 .topic-span {
     width:fit-content;
-    padding:2px 8px;
-    margin: 4px;
+    padding:2px 10px;
+    margin: 5px;
     border-radius: 100px;
     font-size: 16px;
-    cursor: pointer;
     background-color: rgba(0, 128, 92, 0.573);
     color: #fff;
 }
