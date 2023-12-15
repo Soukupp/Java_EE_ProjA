@@ -21,18 +21,19 @@
     <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in Experts" :key="index">
       <div style="padding: 14px;" :key="index" @click="linkToExpertDetail(item, index)">
         <div>
-          <span class="name">{{ Experts[index].realName }}&nbsp;&nbsp;</span>
+          <span class="name">{{ item.realName }}&nbsp;&nbsp;</span>
+          <span class="type">{{ getTypeText(item.type) }}</span>
           <br>
-          <span class="title">{{ Experts[index].job }}</span>
+          <span class="title">{{ item.job }}</span>
         </div>
         <br>
-        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
+        <el-rate class="rate" v-model=item.rating disabled show-score></el-rate>
         <div class="description">
           <div class="subdes">
             
-            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><br><i
-                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
-                <span class="price">{{ Experts[index].price }}元/小时</span>
+            <span class="topic" v-for="(subItem, subIndex) in item.topics" :key="subIndex"><br><i
+                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ subItem.title }}</span>
+                <span class="price">最低价格：{{ item.price }}元/小时</span>
           </div>
         </div>
       </div>
@@ -41,6 +42,8 @@
 </template>
 
 <style scoped lang="less">
+
+
 .hr_solid {
   border: 0;
   border-top: 1px solid #d0d0d5;
@@ -102,13 +105,16 @@
 
 .type {
   display: inline-block;
+  float:right;
   margin: 8px;
+  padding-left: 8px;
+  padding-right:8px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 20px;
   background-color: lightblue;
   color: cadetblue;
   text-align: center;
-  line-height: 24px;
+  line-height: 30px;
 }
 
 .line_01 {
@@ -131,8 +137,13 @@
 }
 
 .price {
-  font-size: 20px;
-  color: red;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  background-color:rgb(227, 181, 96); /* 松绿色或你喜欢的颜色 */
+  color: #fff; /* 文本颜色为白色，确保在背景上清晰可见 */
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 1em; /* 根据需要调整字体大小 */
   float: right;
 }
 
@@ -227,6 +238,17 @@ export default {
     Test5
   },
   methods: {
+    getTypeText(type) {
+      switch (type) {
+        case 1:
+          return "心理";
+        case 2:
+          return "学业"; 
+        case 3:
+          return "就业"; 
+        default:
+          return "未知"; 
+      }},
     async queryData() {
       var config = {
         method: 'get',
@@ -269,50 +291,7 @@ export default {
 
     },
 
-    async getTopics(length) {
-      for (var i = 0; i < length; i++) {
-        var data = new FormData();
-        data.append('expertId', this.Experts[i].phone);
-        var config = {
-          method: 'post',
-          url: '/topic/getById',
-          data: data
-        }
-        var that = this;
-        await axios(config)
-          .then(function (response) {
-            that.$set(that.Experts[i], "topic", response.data.data.topics);
-            that.$set(that.Experts[i], "price", response.data.data.minPrice[0]);
-            that.$set(that.Experts[i], "type", response.data.data.topics[0].type);
 
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    },
-
-    async getCity(length) {
-      for (var i = 0; i < length; i++) {
-        var data = new FormData();
-        data.append('userId', this.Experts[i].phone);
-        var config = {
-          method: 'post',
-          url: '/user/myInfo',
-          data: data
-        }
-        var that = this;
-        await axios(config)
-          .then(function (response) {
-            console.log(response.data.data.city);
-            that.$set(that.Experts[i], "province", response.data.data.province);
-            that.$set(that.Experts[i], "city", response.data.data.city);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    },
 
   },
   mounted() {

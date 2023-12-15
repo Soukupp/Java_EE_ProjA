@@ -13,6 +13,7 @@
       <div style="padding: 14px;" :key="index" @click="linkToExpertDetail(item, index)">
         <div>
           <span class="name">{{ Experts[index].realName }}&nbsp;&nbsp;</span>
+          <span class="type">{{ getTypeText(item.type) }}</span>
           <br>
           <span class="title">{{ Experts[index].job }}</span>
         </div>
@@ -22,11 +23,12 @@
           <span></span>
           <div class="subdes">
             
-            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><i
-                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}<br></span>
+            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><br><i
+                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
+                
+            <span class="price" >最低价格：{{ item.price }}元/小时</span>
           </div>
           <div>
-            <span class="price">{{ Experts[index].price }}元/小时</span>
           </div>
         </div>
       </div>
@@ -117,10 +119,15 @@
     overflow: auto;
     position: relative;
 }
-.price{
-  font-size:20px;
-  color:red;
-  float:right;
+.price {
+  padding: 5px 10px;
+  margin-bottom: 15px;
+  background-color:rgb(227, 181, 96); /* 松绿色或你喜欢的颜色 */
+  color: #fff; /* 文本颜色为白色，确保在背景上清晰可见 */
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 1em; /* 根据需要调整字体大小 */
+  float: right;
 }
 
 .rating{
@@ -181,7 +188,19 @@
     .clearfix:after {
         clear: both
     }
-
+    .type {
+  display: inline-block;
+  float:right;
+  margin: 8px;
+  padding-left: 8px;
+  padding-right:8px;
+  border-radius: 8px;
+  font-size: 20px;
+  background-color: lightblue;
+  color: cadetblue;
+  text-align: center;
+  line-height: 30px;
+}
     .el-container {
   display: block;
   flex-direction: row;
@@ -302,30 +321,17 @@ export default {
          });
     }
       },
-
-      async getExpertInfo(length) {
-      for (var i = 0; i < length; i++)
-  {
-        var data=new FormData();
-        data.append('userId', this.Experts[i].expertId);
-        var config = {
-          method: 'get',
-          url: '/expert/getOne',
-          data:data
-        }
-        var that = this;
-      await axios(config)
-        .then(function (response) {
-          console.log(response.data.data.city);
-          that.$set(that.Experts[i], "realName", response.data.data.realName);
-          that.$set(that.Experts[i], "rating", response.data.data.rating);
-          that.$set(that.Experts[i], "title", response.data.data.job);
-         })
-         .catch(function (error) {
-           console.log(error);
-         });
-        }
-    },
+      getTypeText(type) {
+      switch (type) {
+        case 1:
+          return "心理";
+        case 2:
+          return "学业"; 
+        case 3:
+          return "就业"; 
+        default:
+          return "未知"; 
+      }},
       
   
 

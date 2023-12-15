@@ -32,7 +32,7 @@
                 style="color:gray; font-size: 20px;">#&nbsp;</i>{{ Experts[index].topic[subIndex].title }}<br></span>
           </div>
           <div>
-            <span class="price">{{ Experts[index].price }}元/小时</span>
+            <span class="price">最低价格：{{ Experts[index].price }}元/小时</span>
           </div>
         </div>
       </div>
@@ -122,8 +122,8 @@
 }
 
 .price {
-  font-size: 20px;
-  color: red;
+  font-size: 18px;
+  color:royalblue;
   float: right;
 }
 
