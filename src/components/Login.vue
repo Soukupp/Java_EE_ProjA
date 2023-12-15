@@ -58,20 +58,16 @@ data() {
   var validateAccount = (rule, value, callback) => {
     if (value === "") {
       return callback(new Error("账号不能为空"));
-    } else if (value !== "admin") {
-      callback();
+    } else if (value.length!==11) {
+      callback(new Error('用户名应为11位'));
     } else {
-      callback(new Error("请输入正确的用户名"));
+      callback();
     }
   };
   var validatePassword = (rule, value, callback) => {
     if (value === "") {
       callback(new Error("请输入密码"));
-    } else if (value === "123456") {
-      callback();
-    } else {
-      callback(new Error("请输入正确的密码"));
-    }
+    } 
   };
   return {
     loginForm: {
@@ -130,7 +126,6 @@ methods: {
     };
 
     var that = this;
-
     axios(config)
       .then(function (response) {
         that.accept = response;

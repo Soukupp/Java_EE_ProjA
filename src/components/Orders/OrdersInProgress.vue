@@ -5,51 +5,47 @@
         :key="index">
         <div style="padding: 14px;" :key="index">
           <div>
-            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
+            <span class="name">咨询时间：{{ orders[index].realName }}&nbsp;&nbsp;</span>
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
           </div>
 
-          <div class="description">
 
+          <div class="subdes">
+            <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
+            <br>
+            <span>{{ orders[index].appointTime }}</span>
+            <span class="price">{{ orders[index].price }}元</span>
+          </div>
+          <div class="btns">
+            <el-button @click="getExpert(item, index)">查看行家</el-button>
+            <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'">取消订单</el-button>
+            <el-button @click="ConfirmVisible = true, selectedIndex = index"
+              v-if="orders[index].state == '进行中'">完成订单</el-button>
+            <el-button @click="linkToComment()" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
+            <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
 
-            <div class="subdes">
-              <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
-              <br>
-              <span>{{ orders[index].appointTime }}</span>
-              <span class="price">{{ orders[index].price }}元</span>
-            </div>
-            <div class="btns">
-              <el-button @click="getExpert(item, index)">查看行家</el-button>
-              <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'">取消订单</el-button>
-              <el-button @click="ConfirmVisible = true, selectedIndex = index"
-                v-if="orders[index].state == '进行中'">完成订单</el-button>
-              <el-button @click="linkToComment()" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+            <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
+              <span>您确认要取消订单吗？</span><br><br><br>
+              <el-button @click="cancleOrder(index)">确定</el-button>
+              <el-button type="primary" @click="handleCancleEvent">我再想想</el-button>
+            </el-dialog>
 
-              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
-                <span>您确认要取消订单吗？</span><br><br><br>
-                <el-button @click="cancleOrder(index)">确定</el-button>
-                <el-button type="primary" @click="handleCancleEvent">我再想想</el-button>
-              </el-dialog>
+            <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
+              <span>您确认订单已完成吗？</span><br><br><br>
+              <el-button type="primary" @click="handleCompleteEvent">确定</el-button>
+              <el-button @click="handleCloseEvent2">我再想想</el-button>
+            </el-dialog>
 
-              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
-                <span>您确认订单已完成吗？</span><br><br><br>
-                <el-button type="primary" @click="handleCompleteEvent">确定</el-button>
-                <el-button @click="handleCloseEvent2">我再想想</el-button>
-              </el-dialog>
-
-            </div>
           </div>
         </div>
 
-      </el-card>
+    </el-card>
 
-    </div>
-    <br>
-    <br><br>
   </div>
-</template>
+  <br>
+  <br><br>
+</div></template>
  
  
 <script>
@@ -76,7 +72,7 @@ export default {
     }
   },
   methods: {
-    cancleOrder(index){
+    cancleOrder(index) {
       var data = new FormData();
       data.append("customer_id", this.userId);
       data.append("order_id", this.orders[index].orderId);
@@ -87,7 +83,7 @@ export default {
         data: data
       }
       axios(config)
-        .then(res=>{
+        .then(res => {
           if (res.data.status == 100) {
             this.$message({
               message: '操作成功',
@@ -110,11 +106,11 @@ export default {
 
       this.CancelVisible = false;
       this.queryData().then(res => {
-      this.orders = res.data.data;
-    })
-      
+        this.orders = res.data.data;
+      })
+
     },
-    handleCancleEvent(){
+    handleCancleEvent() {
       this.CancelVisible = false;
     },
     storeSelectedIndex(index) {
@@ -183,10 +179,10 @@ export default {
       var res = await axios(config)
       return res;
     },
-    pullData(){
+    pullData() {
       this.queryData().then(res => {
-      this.orders = res.data.data;
-    })
+        this.orders = res.data.data;
+      })
     }
   },
   mounted() {
@@ -195,7 +191,7 @@ export default {
       this.orders = res.data.data;
     })
   },
-  activated(){
+  activated() {
     this.pullData();
   }
 }
@@ -203,6 +199,18 @@ export default {
  
  
 <style scoped>
+.topic-span {
+  width: 100%;
+  line-height: 36px;
+  padding: 4px;
+  margin: 1px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: teal;
+  color: #fff;
+}
+
 .btns {
   margin-top: 20px;
   text-align: center;

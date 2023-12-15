@@ -1,6 +1,6 @@
 <template>
   <div class="personalCenter" >
-    <el-dialog :visible.sync="examineBtn"> 
+    <el-dialog :visible.sync="examineBtn"  width="70%"> 
           姓名
           <el-input
             v-model="input5"
@@ -19,7 +19,7 @@
           ></el-input>
 
 
-<AreaChoose @custClick="getCity" />
+<!-- <AreaChoose @custClick="getCity" /> -->
 
             <br>
             <br>
@@ -44,26 +44,11 @@ export default {
             pid: "",
             cid:"",
             text: '',
-            input1: '',
-            input2: '',
-            input3: '',
-            input4: '',
             input5: '',
-            input6: '',
-            input7: '',
             input8: '',
-            input9: '',
-            input10: 0,
             circleUrl:
                 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
             sizeList: ['large'],
-            tableData: [
-                {
-                    date: '2016-05-03',
-                    name1: 'Wechat',
-                    name2: 'Github',
-                },
-            ],
             examineBtn: false,
             options: [{
                 value: '选项1',

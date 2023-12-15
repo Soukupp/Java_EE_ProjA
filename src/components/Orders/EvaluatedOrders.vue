@@ -1,11 +1,10 @@
 <template>
   <div>
     <div>
-      <el-card :body-style="{ padding: '0px' }" v-if="orders[index].state == '已评价'" v-for="(item, index) in orders"
-        :key="index">
-        <div style="padding: 14px;" :key="index">
-          <div>
-            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
+      <el-card :body-style="{ padding: '0px'}" v-if="orders[index].state=='已评价'" v-for="(item,index) in orders" :key="index">
+          <div style="padding: 14px;" :key="index">
+            <div>
+            <span class="name">咨询时间：{{orders[index].realName}}&nbsp;&nbsp;</span>
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
           </div>
@@ -183,9 +182,21 @@ export default {
 
  
 <style scoped>
-.btns {
-  margin-top: 20px;
-  text-align: center;
+.topic-span {
+  width:100%;
+  line-height: 36px;
+  padding: 4px;
+  margin: 1px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:teal;
+  color: #fff;
+}
+
+.btns{
+  margin-top:20px;
+  text-align:center;
 
 }
 

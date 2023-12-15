@@ -21,6 +21,8 @@
           placeholder="预约咨询时间"
           :picker-options="pickerOptions"
           value-format="yyyy-MM-dd HH:mm:ss"
+          minTime="9:00"
+          maxTime="16:00"
         >
         </el-date-picker>
       </el-card>
@@ -45,10 +47,15 @@ export default {
   data() {
     return {
       pickerOptions:{
-          disabledDate(time) {
-            return time.getTime() < Date.now();
-          },
+        disabledDate(time) {
+          // 禁用过去的日期和大于七天后的日期
+          const today = new Date();
+          const sevenDaysLater = new Date();
+          sevenDaysLater.setDate(today.getDate() + 7);
+          return time.getTime() < today.getTime() || time.getTime() > sevenDaysLater.getTime();
         },
+        selectableRange:'09:00:00 - 16:00:00'
+      },
       value: '',
       topics: [],
       orders: [],
@@ -73,8 +80,7 @@ export default {
         expert_id:this.expert_id,
         topic_id:this.topics[index].topicId,
         appoint_time:this.date_time,
-        // price:parseInt(this.topics[index].price),
-        price:350
+        price:this.topics[index].price,
       }
       var config = {
         method: 'post',
@@ -145,6 +151,8 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+
 .btns {
   text-align: center;
 }

@@ -25,8 +25,8 @@
           <br>
           <span class="title">{{ Experts[index].job }}</span>
         </div>
-        <Test5 :fatherScore="Experts[index].rating" class="rating" />
         <br>
+        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
         <div class="description">
           <div class="subdes">
             
@@ -47,6 +47,14 @@
   float: right;
 }
 
+/deep/.rate .el-rate__text{
+  font-size: 20px;
+}
+
+/deep/.rate .el-rate__icon{
+  font-size: 24px; /* 自定义星星图标大小 */
+  line-height: 24px; /* 保持星星图标居中 */
+}
 
 .icons {
   border: 1px;
@@ -88,7 +96,8 @@
 .topic {
   padding: 0px;
   margin-top: 60px;
-  line-height: 28px;
+  line-height: 30px;
+  font-size:18px;
 }
 
 .type {
@@ -135,7 +144,6 @@
 }
 
 .subdes {
-  margin-top: 8px;
   font-size: 16px;
   margin-bottom: 0px;
 }
@@ -205,6 +213,7 @@ export default {
   ,
   data() {
     return {
+      givenValue:2.6,
       Experts: [],
       Topics: [],
       Price: [],

@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <div>
-      <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in orders" :key="index">
-        <div style="padding: 14px;" :key="index">
-          <div>
-            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
+    <div>    
+      <div>
+      <el-card :body-style="{ padding: '0px'}" v-for="(item,index) in orders" :key="index">
+          <div style="padding: 14px;" :key="index">
+            <div>
+            <span class="name">{{orders[index].realName}}&nbsp;&nbsp;</span>
             <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
             <br>
-          </div>
-          <div class="description">
-            <div class="subdes">
-              <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
-              <br>
-              <span>{{ orders[index].appointTime }}</span>
-              <span class="price">{{ orders[index].price }}元</span>
+            </div>
+            <div class="description" >
+              <div class="subdes">
+                <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{orders[index].title}}</span>  
+                <br>
+                <span>咨询时间：{{orders[index].appointTime}}</span>
+                <span class="price">{{orders[index].price}}元</span>
             </div>
             <div class="btns">
               <el-button @click="getExpert(item, index)">查看行家</el-button>
@@ -71,9 +71,21 @@
 </template>
    
 <style scoped>
-.btns {
-  margin-top: 20px;
-  text-align: center;
+.topic-span {
+  width:100%;
+  line-height: 36px;
+  padding: 4px;
+  margin: 1px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:teal;
+  color: #fff;
+}
+
+.btns{
+  margin-top:20px;
+  text-align:center;
 
 }
 
@@ -330,6 +342,8 @@ export default {
       done();
     },
     async queryData() {
+      console.log(this.userId);
+      console.log(typeof(this.userId));
       var config = {
         method: 'get',
         url: '/order/GetOrderByID',

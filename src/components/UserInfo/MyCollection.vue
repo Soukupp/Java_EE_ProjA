@@ -16,10 +16,10 @@
           <br>
           <span class="title">{{ Experts[index].job }}</span>
         </div>
-        <Test5 :fatherScore="Experts[index].rating" class="rating" />
+        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
 
         <div class="description">
-          <span>weiss</span>
+          <span></span>
           <div class="subdes">
             
             <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><i
@@ -88,6 +88,15 @@
     color:cadetblue;
     text-align: center;
     line-height: 24px;
+}
+
+/deep/.rate .el-rate__text{
+  font-size: 20px;
+}
+
+/deep/.rate .el-rate__icon{
+  font-size: 24px; /* 自定义星星图标大小 */
+  line-height: 24px; /* 保持星星图标居中 */
 }
 
 .line_01{
@@ -296,13 +305,13 @@ export default {
 
       async getExpertInfo(length) {
       for (var i = 0; i < length; i++)
-{
+  {
         var data=new FormData();
         data.append('userId', this.Experts[i].expertId);
         var config = {
-      method: 'post',
-      url: '/expert/getOne',
-      data:data
+          method: 'get',
+          url: '/expert/getOne',
+          data:data
         }
         var that = this;
       await axios(config)
