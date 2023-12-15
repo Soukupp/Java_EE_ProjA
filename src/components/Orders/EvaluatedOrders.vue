@@ -13,7 +13,7 @@
 
 
             <div class="subdes">
-              <span class="topic"><i style="color:gray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
+              <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
               <br>
               <span>{{ orders[index].appointTime }}</span>
               <span class="price">{{ orders[index].price }}元</span>
