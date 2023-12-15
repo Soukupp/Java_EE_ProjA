@@ -77,10 +77,10 @@ export default {
     },
     ConfirmComment() {
       var data = new FormData();
-      data.append('user_id', this.userId);
-      data.append('expert_id', this.expert_id);
-      data.append('topic_id', this.topic_id);
-      data.append('order_id', this.order_id);
+      data.append('userId', this.userId);
+      data.append('expertId', this.expert_id);
+      data.append('topicId', this.topic_id);
+      data.append('orderId', this.order_id);
       data.append('text', this.form.name);
       data.append('score', this.score);
       console.log(this.score);
