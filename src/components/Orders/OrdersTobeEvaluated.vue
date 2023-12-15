@@ -6,7 +6,13 @@
         <div style="padding: 14px;" :key="index">
           <div>
             <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
-            <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
+            <span :class="{
+              'state1': orders[index].state === '已评价',
+              'state2': orders[index].state === '进行中',
+              'state3': orders[index].state === '已完成'
+            }">
+              {{ orders[index].state }}
+            </span>
             <br>
           </div>
 
@@ -208,5 +214,34 @@ export default {
 .name {
   color: black;
   font-size: 20px;
+}
+
+.state1{
+  border-radius: 100px;
+  font-size: small;
+  color: green;
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgba(0, 128, 0, 0.35);
+}
+.state2{
+  border-radius: 100px;
+  font-size: small;
+  color: rgb(17, 80, 174);
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgb(17, 80, 174,0.35);
+}
+
+.state3{
+  border-radius: 100px;
+  font-size: small;
+  color: orange;
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgba(255, 166, 0, 0.35);
 }
 </style>

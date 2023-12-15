@@ -1,6 +1,10 @@
 <template>
   <div class="bg">
     <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_f8oepiumx94.css">
+    <div style="display:flex;background-color: white;">
+    <el-input style="flex:8;border-color:rgb(11, 141, 130)" v-model="keywords" ></el-input>
+    <el-button  style="flex:1" type="primary" @click="search">搜索</el-button>
+    </div>
     <div class="icons">
       <span class="com"  @click="changeView(1)"><i class="iconfont icon-shangyehezuo-copy"></i>
         <div style="text-align:center;">心理</div>
@@ -13,11 +17,6 @@
         <div style="text-align:center;" >就业</div>
       </span>
     </div>
-    <br>
-    <br>
-    <hr class="hr_solid">
-
-    <br>
     <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in Experts" :key="index">
       <div style="padding: 14px;" :key="index" @click="linkToExpertDetail(item, index)">
         <div>
@@ -75,6 +74,10 @@
 .iconfont {
   display: inline-block;
   font-size: 60px;
+}
+
+.el-input{
+  border-radius: 100px;
 }
 
 .psychology {
@@ -173,7 +176,7 @@
   background-color: #FFF;
   overflow: hidden;
   transition: .3s;
-  margin-bottom: 30px;
+  margin-top: 20px;
   height: auto;
 }
 
@@ -219,11 +222,12 @@ Vue.use(Vuex);
 
 
 export default {
-  props:
-    ['value']
+  props:{
+  }
   ,
   data() {
     return {
+      keywords:"",
       givenValue:2.6,
       Experts: [],
       Topics: [],
@@ -238,6 +242,21 @@ export default {
     Test5
   },
   methods: {
+    search(){
+      console.log(this.keywords);
+      const config = {
+        url: "/expert/search",
+        method:"get",
+        params:{
+          content: this.keywords
+        }
+      }
+      axios(config).then((res)=>{
+        this.Experts = res.data.data;
+      }).catch(error=>{
+        console.log(error);
+      })
+    },
     getTypeText(type) {
       switch (type) {
         case 1:

@@ -1,6 +1,6 @@
 <template>
 <el-container>
-        <Header />
+        <Header/>
         <el-container>
             <el-main style="height:710px;"><ExpertScreen /></el-main>
         </el-container>
@@ -82,6 +82,7 @@ export default {
     return {
       isCollapse: false,
       num: "first",
+      keyword:"",
     };
   },
   components: {

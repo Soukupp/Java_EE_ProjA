@@ -1,19 +1,26 @@
 <template>
-    <div>    
-      <div>
-      <el-card :body-style="{ padding: '0px'}" v-for="(item,index) in orders" :key="index">
-          <div style="padding: 14px;" :key="index">
-            <div>
-            <span class="name">{{orders[index].realName}}&nbsp;&nbsp;</span>
-            <span class="state">&nbsp;{{ orders[index].state }}&nbsp;</span>
+  <div>
+    <div>
+      <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in orders" :key="index">
+        <div style="padding: 14px;" :key="index">
+          <div>
+            <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
+            <span :class="{
+              'state1': orders[index].state === '已评价',
+              'state2': orders[index].state === '进行中',
+              'state3': orders[index].state === '已完成'
+            }">
+              {{ orders[index].state }}
+            </span>
             <br>
-            </div>
-            <div class="description" >
-              <div class="subdes">
-                <span class="topic-span"><i style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{orders[index].title}}</span>  
-                <br>
-                <span>咨询时间：{{orders[index].appointTime}}</span>
-                <span class="price">{{orders[index].price}}元</span>
+          </div>
+          <div class="description">
+            <div class="subdes">
+              <span class="topic-span"><i
+                  style="color:darkgray; font-size: 20px;">#&nbsp;</i>{{ orders[index].title }}</span>
+              <br>
+              <span style="color: grey; font-size: 13px;">咨询时间：{{ orders[index].appointTime }}</span>
+              <span class="price">{{ orders[index].price }}元</span>
             </div>
             <div class="btns">
               <el-button @click="getExpert(item, index)">查看行家</el-button>
@@ -25,7 +32,7 @@
 
               <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
                 <span>您确认要取消订单吗？</span><br><br><br>
-                <el-button  @click="cancelNow(temp)">确定</el-button>
+                <el-button @click="cancelNow(temp)">确定</el-button>
                 <el-button type="primary" @click="handleCancleEvent3">我再想想</el-button>
               </el-dialog>
 
@@ -35,9 +42,9 @@
                 <el-button @click="handleCancleEvent4">我再想想</el-button>
               </el-dialog>
 
-              
+
               <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
-                <el-rate style="margin-bottom: 10px" v-model="mark" show-score ></el-rate>
+                <el-rate style="margin-bottom: 10px" v-model="mark" show-score></el-rate>
                 <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
                 <div style="margin-top: 20px;">
                   <el-button @click="submitComment" type="primary">提交</el-button>
@@ -72,20 +79,20 @@
    
 <style scoped>
 .topic-span {
-    width:fit-content;
-    padding:2px 8px;
-    margin: 4px;
-    border-radius: 100px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: rgba(0, 128, 92, 0.573);
-    color: #fff;
-    margin: 10px 0
+  width: fit-content;
+  padding: 2px 8px;
+  margin: 4px;
+  border-radius: 100px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: rgba(0, 128, 92, 0.573);
+  color: #fff;
+  margin: 10px 0
 }
 
-.btns{
-  margin-top:20px;
-  text-align:center;
+.btns {
+  margin-top: 20px;
+  text-align: center;
 
 }
 
@@ -105,15 +112,36 @@
   line-height: 28px;
 }
 
-.state {
-  border-radius: 4px;
-  text-align: center;
-  line-height: 30px;
+.state1 {
+  border-radius: 100px;
+  font-size: small;
+  color: green;
   float: right;
-  color: forestgreen;
-  background-color: lightblue;
-  height: 30px;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgba(0, 128, 0, 0.35);
 }
+
+.state2 {
+  border-radius: 100px;
+  font-size: small;
+  color: rgb(17, 80, 174);
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgb(17, 80, 174, 0.35);
+}
+
+.state3 {
+  border-radius: 100px;
+  font-size: small;
+  color: orange;
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgba(255, 166, 0, 0.35);
+}
+
 
 .name {
   color: black;
@@ -147,7 +175,7 @@ export default {
       ComplaintFalseVisible: false,
       userId: "",
       orders: [],
-      mark:0,
+      mark: 0,
       temp: 0,
       commentform: {
         name: '',
@@ -156,16 +184,16 @@ export default {
         name: '',
       },
       formLabelWidth: '120px',
-      complaintContent:"",
-      commentContent:"",
+      complaintContent: "",
+      commentContent: "",
 
     }
   },
   methods: {
-    handleCancleEvent4(){
+    handleCancleEvent4() {
       this.ConfirmVisible = false;
     },
-    submitComment(){
+    submitComment() {
       let data = new FormData();
       let index = this.selectedIndex;
       data.append('user_id', this.userId);
@@ -180,8 +208,8 @@ export default {
         data: data
       };
       axios(config)
-        .then(res=> {
-          if(res.data.status === 100){
+        .then(res => {
+          if (res.data.status === 100) {
             this.$message({
               message: '评价成功',
               type: 'success'
@@ -190,7 +218,7 @@ export default {
               this.orders = res.data.data;
             })
           }
-          else{
+          else {
             this.$message({
               message: '评价失败',
               type: 'error'
@@ -199,16 +227,16 @@ export default {
           this.CommentVisible = false;
         })
     },
-    handleCancleEvent3(){
+    handleCancleEvent3() {
       this.CancelVisible = false;
     },
-    handleCancleEvent2(){
+    handleCancleEvent2() {
       this.CommentVisible = false;
     },
-    handleCancleEvent(){
+    handleCancleEvent() {
       this.ComplaintVisible = false;
     },
-    submitComplaint(){
+    submitComplaint() {
       let userId = localStorage.getItem('userId');
       let data = new FormData();
       let index = this.selectedIndex;
@@ -264,7 +292,7 @@ export default {
         data: data
       }
       axios(config)
-        .then(res=>{
+        .then(res => {
           if (res.data.status == 100) {
             this.$message({
               message: '操作成功',
@@ -299,7 +327,7 @@ export default {
         data: data
       }
       axios(config)
-        .then((res)=>{
+        .then((res) => {
           if (res.data.status === 100) {
             this.$message({
               message: '操作成功',
@@ -343,7 +371,7 @@ export default {
     },
     async queryData() {
       console.log(this.userId);
-      console.log(typeof(this.userId));
+      console.log(typeof (this.userId));
       var config = {
         method: 'get',
         url: '/order/GetOrderByID',
@@ -430,11 +458,11 @@ export default {
           //this.$router.push('/Home');
         })
     },
-    pullData(){
+    pullData() {
       this.queryData().then(res => {
-      this.orders = res.data.data;
-      console.log("jhjjjihi")
-    })
+        this.orders = res.data.data;
+        console.log("jhjjjihi")
+      })
     }
   },
   mounted() {
@@ -443,7 +471,7 @@ export default {
       this.orders = res.data.data;
     })
   },
-  activated(){
+  activated() {
     this.pullData();
   }
 }

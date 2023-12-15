@@ -4,32 +4,6 @@
       <img src="../../img/logo.png" alt="" height="40px" />
       <span>对询</span>
     </div>
-    <el-row>
-      <el-col
-        :span="5"
-        style="float: left; width: 160px; text-align: center; height: 20px"
-      >
-        <el-input
-          type="text"
-          v-model="input"
-          placeholder="搜索行家/话题"
-          style="width: 160px; height: 20px; cursor: pointer"
-          clearable
-        ></el-input>
-      </el-col>
-      <el-col
-        :span="5"
-        style="float: left; width: 25px; text-align: center; height: 20px"
-      >
-        <el-button
-          icon="el-icon-search"
-          type="primary"
-          circle
-          :disabled="this.input == ''"
-          @click="search"
-        ></el-button>
-      </el-col>
-    </el-row>
   </el-header>
 </template>
 
@@ -44,10 +18,6 @@ export default {
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
-    },
-    search() {
-      console.log("Home输入内容：" + this.input);
-      this.$router.push(`/searchresult/${this.input}`);
     },
   },
 };
