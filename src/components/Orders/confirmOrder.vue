@@ -10,8 +10,9 @@
       <span>咨询详情</span><br><br>
       <el-card style="justify-content: center;">
         <el-form>
-          <el-form-item label="每小时咨询价格">{{item.price}}</el-form-item>
+          <el-form-item label="咨询价格">{{item.price}}</el-form-item>
           <el-form-item label="咨询方式">{{ item.way }}</el-form-item>
+          <el-form-item label="简介">{{ item.text }}</el-form-item>
           <el-date-picker v-model="date_time" type="datetime" placeholder="预约咨询时间" :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm:ss" minTime="9:00" maxTime="16:00">
           </el-date-picker>
@@ -60,7 +61,6 @@ export default {
   mounted() {
     this.userId = localStorage.getItem('userId');
     this.getTopics();
-    this.getName();
   },
   methods: {
     linkToOrder() {
@@ -92,29 +92,12 @@ export default {
     handleClose(done) {
       done();
     },
-    async getName() {
-      var data = new FormData();
-      data.append("userId", this.expert_id);
-      var config = {
-        method: 'post',
-        url: '/expert/getOne',
-        data: data
-      }
-      var that = this;
-      await axios(config)
-        .then(function (response) {
-          that.name = response.data.data.realName;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
     async getTopics() {
       var data = new FormData();
       data.append("expertId", this.expert_id);
       var config = {
         method: 'get',
-        url: '/topic/getById',
+        url: '/topic/getAllTopicByExpertId',
         params: {
           expertId: this.expert_id
         }

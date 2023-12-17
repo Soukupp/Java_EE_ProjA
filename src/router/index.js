@@ -35,11 +35,15 @@ import SpecialNotcie from '../components/UserInfo/SpecialNotice.vue'
 import UserInfoEdit from '../components/userInfoEdit.vue'
 import UserOrder from '../components/userOrder.vue'
 import Welcome from '../components/Welcome.vue'
+import ExpertApplication from '../components/UserInfo/ExpertApplication.vue'
+import ExpertOrder from '../components/Orders/ExpertOrder.vue'
 Vue.use(VueRouter)
 
 
 const router = new VueRouter({
   routes: [
+    { path: '/expertOrder', component: ExpertOrder },
+    { path: '/expertApplication', component: ExpertApplication },
     { path: '/AreaChoose', component: AreaChoose },
     { path: '/AboutUs', component: AboutUs },
     { path: '/SpecialNotice', component: SpecialNotcie },

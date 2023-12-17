@@ -16,6 +16,9 @@
           <el-tab-pane label="已评价" name="forth">
             <EvaluatedOrders v-if="orderStatus.orderStatus4" />
           </el-tab-pane>
+          <el-tab-pane label="已取消" name="fifth">
+            <CancledOrders v-if="orderStatus.orderStatus5" />
+          </el-tab-pane>
         </el-tabs>
       </el-main>
     </el-container>
@@ -30,6 +33,7 @@ import EvaluatedOrders from '../Orders/EvaluatedOrders.vue';
 import OrderMenu from '../Orders/OrderMenu.vue';
 import OrdersInProgress from '../Orders/OrdersInProgress.vue';
 import OrdersTobeEvaluated from '../Orders/OrdersTobeEvaluated.vue';
+import CancledOrders from '../Orders/CancledOrders.vue';
 export default {
   data() {
     return {
@@ -39,7 +43,8 @@ export default {
         orderStatus1: true,
         orderStatus2: false,
         orderStatus3: false,
-        orderStatus4: false
+        orderStatus4: false,
+        orderStatus5: false,
       }
     };
   },
@@ -50,6 +55,7 @@ export default {
     EvaluatedOrders,
     OrderMenu,
     Footer,
+    CancledOrders,
     Header,
   },
   methods: {
@@ -67,6 +73,9 @@ export default {
         case 'forth':
           this.updateStatus('orderStatus4');
           break;
+        case 'fifth':
+        this.updateStatus('orderStatus5'); 
+        break;
       }
     },
     updateStatus(name){

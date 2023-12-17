@@ -7,7 +7,7 @@
             <link rel="stylesheet icon" href="//at.alicdn.com/t/c/font_3828548_2scs4mmv5kn.css">
             <span @click="linkToUserInfo()" class="sub"><i class="iconfont icon-person"></i>我的信息 <i class="iconfont icon-keyboard_arrow_right"></i></span>
             <span @click="linkToMyCollection()" class="sub"><i class="iconfont icon-check"></i>我的收藏 <i class="iconfont icon-keyboard_arrow_right"></i></span>
-            <span @click="personalExpert()" class="sub"><i class="iconfont icon-person_add"></i>成为行家 <i class="iconfont icon-keyboard_arrow_right"></i></span>
+            <span @click="linkToExpertApplicationPage()" class="sub"><i class="iconfont icon-person_add"></i>成为行家 <i class="iconfont icon-keyboard_arrow_right"></i></span>
             <el-dialog
             title="提交信息"
             :visible.sync="dialogVisible"
@@ -69,6 +69,9 @@ export default {
       getQualification
   },
   methods: {
+    linkToExpertApplicationPage(){
+      this.$router.push('/expertApplication')
+    },
     ToConfirm() {
       this.NotExpertVisible = false;
       this.dialogVisible = true;
@@ -92,32 +95,7 @@ export default {
             done();
     },
     MyExpertInfo() {
-      var data = new FormData();
-      data.append("userId", this.userId);
-      
-        var config = {
-            method: 'post',
-            url: '/user/isExpert',
-            data: data
-            }
-            var that = this;
-            axios(config)
-                .then(function (response) {
-                  var s = response.data.status;
-                  if (s == '100')
-                  {
-                    console.log("是行家");
-                    that.$router.push('/MyExpertInfo');
-                  }
-                  else if (s == '999')
-                  {
-                    console.log("不是行家");
-                    that.NotExpertVisible = true;
-                  }
-         })
-         .catch(function (error) {
-           console.log(error);
-         });
+      this.$router.push('/MyExpertInfo');
       },
     personalExpert() {
       var data = new FormData();

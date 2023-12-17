@@ -33,7 +33,7 @@
                                 <img src="../../img/avatar.svg" style="width: 30px; height: 30px;" />
                                 <div style="display: flex; flex-direction: column; margin-left: 5px;">
                                     <div style="font-weight: bolder; display: flex; align-items: center;">
-                                        {{ item.userId }}
+                                        {{ item.name }}
                                     </div>
                                     <div
                                         style="display: flex; align-items: center; font-size: 12px; color: rgb(163, 162, 162)">
@@ -62,13 +62,6 @@
                                 @close="handleCloseEvent" />
                         </el-dialog>
 
-                        <!-- <el-dialog :visible.sync="HaveFavVisible" width="95%" :before-close="handleClose">
-                            <span style="font-size:22px;">您已收藏过该专家！</span>
-                        </el-dialog>
-
-                        <el-dialog :visible.sync="NewFavVisible" width="95%" :before-close="handleClose">
-                            <span style="font-size:22px;">收藏成功！</span>
-                        </el-dialog> -->
                     </div>
                 </el-card>
             </el-main>

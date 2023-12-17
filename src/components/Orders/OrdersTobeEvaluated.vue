@@ -24,12 +24,14 @@
               <span class="price">{{ orders[index].price }}元/小时</span>
             </div>
             <div class="btns">
-              <el-button @click="getExpert(item, index)">查看行家</el-button>
-              <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'">取消订单</el-button>
-              <el-button @click="ConfirmVisible = true" v-if="orders[index].state == '进行中'">完成订单</el-button>
+              <el-button @click="getExpert(item, index)" style="padding-left: 12px;padding-right: 12px;">查看行家</el-button>
+              <el-button @click="CancelVisible = true" v-if="orders[index].state == '进行中'" style="padding-left: 12px;padding-right: 12px;">取消订单</el-button>
+              <el-button @click="ConfirmVisible = true" v-if="orders[index].state == '进行中'" style="padding-left: 12px;padding-right: 12px;">完成订单</el-button>
               <el-button @click="linkToComment(), selectedIndex = index"
-                v-else-if="orders[index].state == '已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+                v-else-if="orders[index].state == '已完成'" style="padding-left: 12px;padding-right: 12px;">评价订单</el-button>
+              <el-button @click="linkToComplaint()" v-else-if="orders[index].state == '已评价'" style="padding-left: 12px;padding-right: 12px;">投诉行家</el-button>
+              <el-button @click="linkToDelete(index)" icon="el-icon-delete"
+                style="padding-left: 10px;padding-right: 10px;float:right;"></el-button>
 
               <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
                 <el-rate style="margin-bottom: 10px" v-model="mark" show-score></el-rate>
@@ -38,6 +40,12 @@
                   <el-button @click="submitComment" type="primary">提交</el-button>
                   <el-button @click="handleCancleEvent">取消</el-button>
                 </div>
+              </el-dialog>
+
+              <el-dialog title="删除" :visible.sync="DeleteVisible" width="85%" :before-close="handleClose">
+                <span>您确定删除订单吗？</span><br><br><br>
+                <el-button type="primary" @click="deleteOrder(temp)">确定</el-button>
+                <el-button @click="handleCancleEvent5">我再想想</el-button>
               </el-dialog>
 
 
@@ -74,16 +82,53 @@ export default {
       orders: [],
       commentContent: "",
       mark: 0,
+      DeleteVisible: false
     }
   },
   methods: {
+    linkToDelete(index){
+      this.DeleteVisible = true;
+      this.temp = index;
+    },
+    deleteOrder(index) {
+
+      let data = new FormData();
+      data.append('customer_id', this.userId);
+      data.append('order_id', this.orders[index].orderId);
+      const config = {
+        url: '/order/DeleteOrder',
+        method: 'post',
+        params:{
+          customer_id: this.userId,
+          order_id: this.orders[index].orderId
+        }
+      }
+      axios(config).then((res) => {
+        if (res.data.status === 100) {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.queryData().then(res => {
+            this.orders = res.data.data;
+          })
+        }
+        else {
+          this.$message({
+            message: '删除失败',
+            type: 'error'
+          });
+        }
+        this.DeleteVisible = false;
+      });
+    },
     submitComment() {
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('user_id', this.userId);
-      data.append('expert_id', this.orders[index].expertId);
-      data.append('topic_id', this.orders[index].topicId);
-      data.append('order_id', this.orders[index].orderId);
+      data.append('userId', this.userId);
+      data.append('expertId', this.orders[index].expertId);
+      data.append('topicId', this.orders[index].topicId);
+      data.append('orderId', this.orders[index].orderId);
       data.append('text', this.commentContent);
       data.append('score', this.mark);
       var config = {
@@ -138,7 +183,7 @@ export default {
         method: 'get',
         url: '/order/GetOrderByID',
         params: {
-          customer_id: this.userId
+          customerId: this.userId
         },
       }
       var res = await axios(config)

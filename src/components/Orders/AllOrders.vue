@@ -8,7 +8,8 @@
             <span :class="{
               'state1': orders[index].state === '已评价',
               'state2': orders[index].state === '进行中',
-              'state3': orders[index].state === '已完成'
+              'state3': orders[index].state === '已完成',
+              'state4': orders[index].state === '已取消'
             }">
               {{ orders[index].state }}
             </span>
@@ -16,16 +17,18 @@
           </div>
           <div class="description">
             <div class="subdes">
-              <div class="topic-span">{{ "#"+orders[index].title }}</div>
+              <div class="topic-span">{{ "#" + orders[index].title }}</div>
               <span style="color: grey; font-size: 13px;">咨询时间：{{ orders[index].appointTime }}</span>
               <span class="price">{{ orders[index].price }}元/小时</span>
             </div>
             <div class="btns">
-              <el-button @click="getExpert(item, index)">查看行家</el-button>
-              <el-button @click="cancel(index)" v-if="orders[index].state == '进行中'">取消订单</el-button>
-              <el-button @click="confirm(index)" v-if="orders[index].state == '进行中'">完成订单</el-button>
-              <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'">评价订单</el-button>
-              <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'">投诉行家</el-button>
+              <el-button @click="getExpert(item, index)" style="padding-left: 12px;padding-right: 12px;">查看行家</el-button>
+              <el-button @click="cancel(index)" v-if="orders[index].state == '进行中'" style="padding-left: 12px;padding-right: 12px;">取消订单</el-button>
+              <el-button @click="confirm(index)" v-if="orders[index].state == '进行中'" style="padding-left: 12px;padding-right: 12px;">完成订单</el-button>
+              <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'" style="padding-left: 12px;padding-right: 12px;">评价订单</el-button>
+              <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'" style="padding-left: 12px;padding-right: 12px;">投诉行家</el-button>
+              <el-button @click="linkToDelete(index)" icon="el-icon-delete"
+                style="padding-left: 10px;padding-right: 10px;float:right;"></el-button>
 
 
               <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
@@ -57,6 +60,12 @@
                   <el-button @click="submitComplaint" type="primary">提交</el-button>
                   <el-button @click="handleCancleEvent">取消</el-button>
                 </div>
+              </el-dialog>
+
+              <el-dialog title="删除" :visible.sync="DeleteVisible" width="85%" :before-close="handleClose">
+                <span>您确定删除订单吗？</span><br><br><br>
+                <el-button type="primary" @click="deleteOrder(temp)">确定</el-button>
+                <el-button @click="handleCancleEvent5">我再想想</el-button>
               </el-dialog>
 
 
@@ -140,6 +149,16 @@
   background-color: rgba(255, 166, 0, 0.35);
 }
 
+.state4 {
+  border-radius: 100px;
+  font-size: small;
+  color: grey;
+  float: right;
+  font-weight: bold;
+  padding: 2px 6px;
+  background-color: rgb(128, 128, 128, 0.35);
+}
+
 
 .name {
   color: black;
@@ -170,6 +189,7 @@ export default {
       ComplaintVisible: false,
       CancelVisible: false,
       ConfirmVisible: false,
+      DeleteVisible: false,
       ComplaintFalseVisible: false,
       userId: "",
       orders: [],
@@ -188,16 +208,53 @@ export default {
     }
   },
   methods: {
+
+    linkToDelete(index){
+      this.DeleteVisible = true;
+      this.temp = index;
+    },
+    deleteOrder(index) {
+
+      let data = new FormData();
+      data.append('customer_id', this.userId);
+      data.append('order_id', this.orders[index].orderId);
+      const config = {
+        url: '/order/DeleteOrder',
+        method: 'post',
+        params:{
+          customer_id: this.userId,
+          order_id: this.orders[index].orderId
+        }
+      }
+      axios(config).then((res) => {
+        if (res.data.status === 100) {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.queryData().then(res => {
+            this.orders = res.data.data;
+          })
+        }
+        else {
+          this.$message({
+            message: '删除失败',
+            type: 'error'
+          });
+        }
+        this.DeleteVisible = false;
+      });
+    },
     handleCancleEvent4() {
       this.ConfirmVisible = false;
     },
     submitComment() {
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('user_id', this.userId);
-      data.append('expert_id', this.orders[index].expertId);
-      data.append('topic_id', this.orders[index].topicId);
-      data.append('order_id', this.orders[index].orderId);
+      data.append('userId', this.userId);
+      data.append('expertId', this.orders[index].expertId);
+      data.append('topicId', this.orders[index].topic.topicId);
+      data.append('orderId', this.orders[index].orderId);
       data.append('text', this.commentContent);
       data.append('score', this.mark);
       var config = {
@@ -224,6 +281,9 @@ export default {
           }
           this.CommentVisible = false;
         })
+    },
+    handleCancleEvent5(){
+      this.DeleteVisible = false;
     },
     handleCancleEvent3() {
       this.CancelVisible = false;
@@ -321,8 +381,10 @@ export default {
 
       var config = {
         method: 'post',
-        url: '/order/DeleteOrder',
-        data: data
+        url: '/order/CancleOrder',
+        params: {
+          orderId: this.orders[index].orderId
+        }
       }
       axios(config)
         .then((res) => {
@@ -347,7 +409,6 @@ export default {
         });
 
       this.CancelVisible = false;
-
     },
     getExpert(item, index) {
       console.log(this.orders[index].expertId);
@@ -374,7 +435,7 @@ export default {
         method: 'get',
         url: '/order/GetOrderByID',
         params: {
-          customer_id: this.userId
+          customerId: this.userId
         },
       }
       var res = await axios(config)
