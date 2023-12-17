@@ -1,26 +1,33 @@
 <template>
   <div>
     <div>
-      <el-card :body-style="{ padding: '0px' }" v-if="orders[index].state == '已完成'" v-for="(item, index) in orders"
-        :key="index">
-        <div style="padding: 14px;" :key="index">
+      <el-card
+        :body-style="{ padding: '0px' }"
+        v-if="orders[index].state == '已完成'"
+        v-for="(item, index) in orders"
+        :key="index"
+      >
+        <div style="padding: 14px" :key="index">
           <div>
             <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
-            <span :class="{
-              'state1': orders[index].state === '已评价',
-              'state2': orders[index].state === '进行中',
-              'state3': orders[index].state === '已完成'
-            }">
+            <span
+              :class="{
+                state1: orders[index].state === '已评价',
+                state2: orders[index].state === '进行中',
+                state3: orders[index].state === '已完成',
+              }"
+            >
               {{ orders[index].state }}
             </span>
-            <br>
+            <br />
           </div>
 
           <div class="description">
-
             <div class="subdes">
               <div class="topic-span">{{ orders[index].title }}</div>
-              <span style="color: grey; font-size: 13px;">咨询时间：{{ orders[index].appointTime }}</span>
+              <span style="color: grey; font-size: 13px"
+                >咨询时间：{{ orders[index].appointTime }}</span
+              >
               <span class="price">{{ orders[index].price }}元/小时</span>
             </div>
             <div class="btns">
@@ -33,11 +40,26 @@
               <el-button @click="linkToDelete(index)" icon="el-icon-delete"
                 style="padding-left: 10px;padding-right: 10px;float:right;"></el-button>
 
-              <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
-                <el-rate style="margin-bottom: 10px" v-model="mark" show-score></el-rate>
-                <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
-                <div style="margin-top: 20px;">
-                  <el-button @click="submitComment" type="primary">提交</el-button>
+              <el-dialog
+                title="评价"
+                :visible.sync="CommentVisible"
+                width="85%"
+                :before-close="handleClose"
+              >
+                <el-rate
+                  style="margin-bottom: 10px"
+                  v-model="mark"
+                  show-score
+                ></el-rate>
+                <el-input
+                  type="textarea"
+                  v-model="commentContent"
+                  placeholder="请输入您的评价"
+                ></el-input>
+                <div style="margin-top: 20px">
+                  <el-button @click="submitComment" type="primary"
+                    >提交</el-button
+                  >
                   <el-button @click="handleCancleEvent">取消</el-button>
                 </div>
               </el-dialog>
@@ -51,25 +73,20 @@
 
             </div>
           </div>
-
-
-
         </div>
-
       </el-card>
-
     </div>
-    <br>
-    <br><br>
+    <br />
+    <br /><br />
   </div>
 </template>
- 
+
 <script>
-import axios from 'axios';
-import MakeComment from '../Comments/MakeComment.vue';
-import MakeComplaint from '../Complaints/MakeComplaint.vue';
+import axios from "axios";
+import MakeComment from "../Comments/MakeComment.vue";
+import MakeComplaint from "../Complaints/MakeComplaint.vue";
 export default {
-  name: 'Evaluated',
+  name: "Evaluated",
   components: { MakeComment, MakeComplaint },
   data() {
     return {
@@ -132,30 +149,28 @@ export default {
       data.append('text', this.commentContent);
       data.append('score', this.mark);
       var config = {
-        method: 'post',
-        url: '/review/CreateReview',
-        data: data
+        method: "post",
+        url: "/review/CreateReview",
+        data: data,
       };
-      axios(config)
-        .then(res => {
-          if (res.data.status === 100) {
-            this.$message({
-              message: '评价成功',
-              type: 'success'
-            });
-            this.queryData().then(res => {
-              this.orders = res.data.data;
-            })
-          }
-          else {
-            this.$message({
-              message: '评价失败',
-              type: 'error'
-            });
-          }
+      axios(config).then((res) => {
+        if (res.data.status === 100) {
+          this.$message({
+            message: "评价成功",
+            type: "success",
+          });
+          this.queryData().then((res) => {
+            this.orders = res.data.data;
+          });
+        } else {
+          this.$message({
+            message: "评价失败",
+            type: "error",
+          });
+        }
 
-          this.CommentVisible = false;
-        })
+        this.CommentVisible = false;
+      });
     },
     handleCancleEvent() {
       this.CommentVisible = false;
@@ -180,36 +195,34 @@ export default {
       var data = new FormData();
       data.append("customer_id", this.userId);
       var config = {
-        method: 'get',
-        url: '/order/GetOrderByID',
+        method: "get",
+        url: "/order/GetOrderByID",
         params: {
           customerId: this.userId
         },
-      }
-      var res = await axios(config)
+      };
+      var res = await axios(config);
       return res;
     },
-    pullData(){
-      this.queryData().then(res => {
-      this.orders = res.data.data;
-    })
-    }
+    pullData() {
+      this.queryData().then((res) => {
+        this.orders = res.data.data;
+      });
+    },
   },
   mounted() {
-    this.userId = localStorage.getItem('userId');
-    this.queryData().then(res => {
+    this.userId = localStorage.getItem("userId");
+    this.queryData().then((res) => {
       this.orders = res.data.data;
-    })
+    });
   },
-  activated(){
+  activated() {
     pullData();
-  }
-}
+  },
+};
 </script>
- 
- 
-<style scoped>
 
+<style scoped>
 .topic-span {
   width: fit-content;
   padding: 2px 10px;
@@ -219,13 +232,12 @@ export default {
   cursor: pointer;
   background-color: rgba(0, 128, 92, 0.573);
   color: #fff;
-  margin: 10px 0
+  margin: 10px 0;
 }
 
 .btns {
   margin-top: 20px;
   text-align: center;
-
 }
 
 .el-button {
@@ -261,7 +273,7 @@ export default {
   font-size: 20px;
 }
 
-.state1{
+.state1 {
   border-radius: 100px;
   font-size: small;
   color: green;
@@ -270,17 +282,17 @@ export default {
   padding: 2px 6px;
   background-color: rgba(0, 128, 0, 0.35);
 }
-.state2{
+.state2 {
   border-radius: 100px;
   font-size: small;
   color: rgb(17, 80, 174);
   float: right;
   font-weight: bold;
   padding: 2px 6px;
-  background-color: rgb(17, 80, 174,0.35);
+  background-color: rgb(17, 80, 174, 0.35);
 }
 
-.state3{
+.state3 {
   border-radius: 100px;
   font-size: small;
   color: orange;

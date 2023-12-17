@@ -12,21 +12,26 @@
           <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in Experts" :key="index">
       <div style="padding: 14px;" :key="index" @click="linkToExpertDetail(item, index)">
         <div>
-          <span class="name">{{ Experts[index].realName }}&nbsp;&nbsp;</span>
-          <span class="type">{{ getTypeText(item.type) }}</span>
+          <span class="name">{{ item.realName }}&nbsp;&nbsp;</span>
+          <!-- <span class="type">{{ getTypeText(item.type) }}</span> -->
+          <span class="price">最低价格：{{ item.price }}元/小时</span>
           <br>
-          <span class="title">{{ Experts[index].job }}</span>
+          <span class="title">{{ item.job }}</span>
         </div>
-        <el-rate class="rate" v-model=Experts[index].rating disabled show-score></el-rate>
+        <br>
+        <el-rate class="rate" style="display:inline-block; margin-bottom:8px;" v-model=item.rating disabled show-score></el-rate>
 
         <div class="description">
-          <span></span>
           <div class="subdes">
             
-            <span class="topic" v-for="(item, subIndex) in Experts[index].topics" :key="subIndex"><br><i
-                style="color:gray; font-size: 20px;">#&nbsp;</i>{{ item.title }}</span>
+            <span class="topic" v-for="(subItem, subIndex) in Experts[index].topics" :key="subIndex"><i
+                style="color:white; font-size: 20px;">#&nbsp;</i>{{ subItem.title }}<br v-if="subIndex < item.topics.length - 1" /></span>
                 
-            <span class="price" >最低价格：{{ item.price }}元/小时</span>
+                <span class="type">{{ getTypeText(item.type) }}</span>
+                <i  :class="getTypeIcon(item.type)" class="tagIcon" ></i>
+
+
+            
           </div>
           <div>
           </div>
@@ -51,7 +56,14 @@
         float:right;
 	}
 
-
+  .tagIcon{
+  position: absolute;  
+  float:right;  
+  font-size:70px !important;
+  opacity: 0.2;
+  right:25px;
+  top:50px;
+}
 
 .com{
     display:inline-block;
@@ -76,29 +88,40 @@
     margin-top:8px;
     color:gray;
 }
-.topic{
-    padding:0px;
-    margin-top: 60px;
-    line-height: 28px;
+.topic {
+  padding: 6px;
+  padding-left: 16px;
+  padding-right: 18px;
+  line-height: 40px;
+  font-size:18px;
+  width:fit-content;
+  border-radius: 18px;
+  background-color: rgba(0, 128, 92, 0.573);
+  color: #fff;
 }
-.type{
-    display:inline-block;
-    margin:8px;
-    border-radius:8px;
-    font-size:16px;
-    background-color:lightblue;
-    color:cadetblue;
-    text-align: center;
-    line-height: 24px;
+.type {
+  display: inline-block;
+  float:right;
+  margin: 8px;
+  padding-left: 12px;
+  padding-right:12px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgb(44, 136, 157);
+  color: white;
+  text-align: center;
+  line-height: 36px;
 }
 
+
 /deep/.rate .el-rate__text{
-  font-size: 20px;
+  font-size: 18px;
 }
 
 /deep/.rate .el-rate__icon{
-  font-size: 24px; /* 自定义星星图标大小 */
-  line-height: 24px; /* 保持星星图标居中 */
+  font-size: 20px; /* 自定义星星图标大小 */
+  line-height: 20px; /* 保持星星图标居中 */
 }
 
 .line_01{
@@ -120,13 +143,12 @@
     position: relative;
 }
 .price {
-  padding: 5px 10px;
-  margin-bottom: 15px;
-  background-color:rgb(227, 181, 96); /* 松绿色或你喜欢的颜色 */
-  color: #fff; /* 文本颜色为白色，确保在背景上清晰可见 */
-  font-weight: bold;
+  padding: 4px 8px;
+  background-color:rgb(44, 136, 157); 
+  color: #fff; 
+  //font-weight: bold;
   border-radius: 5px;
-  font-size: 1em; /* 根据需要调整字体大小 */
+  font-size: 1.1em; 
   float: right;
 }
 
@@ -151,6 +173,7 @@
 }
 
 .el-card {
+    position: relative;
     border-radius: 2px;
     background-color: #FFF;
     overflow: hidden;
@@ -188,19 +211,7 @@
     .clearfix:after {
         clear: both
     }
-    .type {
-  display: inline-block;
-  float:right;
-  margin: 8px;
-  padding-left: 8px;
-  padding-right:8px;
-  border-radius: 8px;
-  font-size: 20px;
-  background-color: lightblue;
-  color: cadetblue;
-  text-align: center;
-  line-height: 30px;
-}
+
     .el-container {
   display: block;
   flex-direction: row;
@@ -244,6 +255,38 @@ export default {
     Footer,
   },
     methods: {
+      getActiveType(type){
+      switch(type){
+        case 1:
+          return "心理";
+        case 2:
+          return "学业"; 
+        case 3:
+          return "就业"; 
+      }
+    },
+    getTypeText(type) {
+      switch (type) {
+        case 1:
+          return "心理";
+        case 2:
+          return "学业"; 
+        case 3:
+          return "就业"; 
+        default:
+          return "未知"; 
+      }},
+      getTypeIcon(type){
+      switch (type) {
+        case 1:
+          return "iconfont icon-shangyehezuo-copy";
+        case 2:
+          return "iconfont icon-bianji_edit"; 
+        case 3:
+          return "iconfont icon-gongzuotai_workbench"; 
+        default:
+          return "未知"; 
+      }},
 
       getExpert(item, index) {
         console.log(this.Experts[index].expertId);

@@ -1,8 +1,12 @@
 <template>
   <div>
     <div>
-      <el-card :body-style="{ padding: '0px' }" v-for="(item, index) in orders" :key="index">
-        <div style="padding: 14px;" :key="index">
+      <el-card
+        :body-style="{ padding: '0px' }"
+        v-for="(item, index) in orders"
+        :key="index"
+      >
+        <div style="padding: 14px" :key="index">
           <div>
             <span class="name">{{ orders[index].realName }}&nbsp;&nbsp;</span>
             <span :class="{
@@ -13,7 +17,7 @@
             }">
               {{ orders[index].state }}
             </span>
-            <br>
+            <br />
           </div>
           <div class="description">
             <div class="subdes">
@@ -30,34 +34,71 @@
               <el-button @click="linkToDelete(index)" icon="el-icon-delete"
                 style="padding-left: 10px;padding-right: 10px;float:right;"></el-button>
 
-
-              <el-dialog title="取消订单" :visible.sync="CancelVisible" width="95%" :before-close="handleClose">
-                <span>您确认要取消订单吗？</span><br><br><br>
+              <el-dialog
+                title="取消订单"
+                :visible.sync="CancelVisible"
+                width="95%"
+                :before-close="handleClose"
+              >
+                <span>您确认要取消订单吗？</span><br /><br /><br />
                 <el-button @click="cancelNow(temp)">确定</el-button>
-                <el-button type="primary" @click="handleCancleEvent3">我再想想</el-button>
+                <el-button type="primary" @click="handleCancleEvent3"
+                  >我再想想</el-button
+                >
               </el-dialog>
 
-              <el-dialog title="完成订单" :visible.sync="ConfirmVisible" width="95%" :before-close="handleClose">
-                <span>您确认订单已完成吗？</span><br><br><br>
-                <el-button type="primary" @click="confirmFinish(temp)">确定</el-button>
+              <el-dialog
+                title="完成订单"
+                :visible.sync="ConfirmVisible"
+                width="95%"
+                :before-close="handleClose"
+              >
+                <span>您确认订单已完成吗？</span><br /><br /><br />
+                <el-button type="primary" @click="confirmFinish(temp)"
+                  >确定</el-button
+                >
                 <el-button @click="handleCancleEvent4">我再想想</el-button>
               </el-dialog>
 
-
-              <el-dialog title="评价" :visible.sync="CommentVisible" width="85%" :before-close="handleClose">
-                <el-rate style="margin-bottom: 10px" v-model="mark" show-score></el-rate>
-                <el-input type="textarea" v-model="commentContent" placeholder="请输入您的评价"></el-input>
-                <div style="margin-top: 20px;">
-                  <el-button @click="submitComment" type="primary">提交</el-button>
+              <el-dialog
+                title="评价"
+                :visible.sync="CommentVisible"
+                width="85%"
+                :before-close="handleClose"
+              >
+                <el-rate
+                  style="margin-bottom: 10px"
+                  v-model="mark"
+                  show-score
+                ></el-rate>
+                <el-input
+                  type="textarea"
+                  v-model="commentContent"
+                  placeholder="请输入您的评价"
+                ></el-input>
+                <div style="margin-top: 20px">
+                  <el-button @click="submitComment" type="primary"
+                    >提交</el-button
+                  >
                   <el-button @click="handleCancleEvent2">取消</el-button>
                 </div>
               </el-dialog>
 
-
-              <el-dialog title="投诉" :visible.sync="ComplaintVisible" width="85%" :before-close="handleClose">
-                <el-input type="textarea" v-model="complaintContent" placeholder="请输入您的意见"></el-input>
-                <div style="margin-top: 20px;">
-                  <el-button @click="submitComplaint" type="primary">提交</el-button>
+              <el-dialog
+                title="投诉"
+                :visible.sync="ComplaintVisible"
+                width="85%"
+                :before-close="handleClose"
+              >
+                <el-input
+                  type="textarea"
+                  v-model="complaintContent"
+                  placeholder="请输入您的意见"
+                ></el-input>
+                <div style="margin-top: 20px">
+                  <el-button @click="submitComplaint" type="primary"
+                    >提交</el-button
+                  >
                   <el-button @click="handleCancleEvent">取消</el-button>
                 </div>
               </el-dialog>
@@ -71,19 +112,14 @@
 
             </div>
           </div>
-
-
-
         </div>
-
       </el-card>
-
     </div>
-    <br>
-    <br><br>
+    <br />
+    <br /><br />
   </div>
 </template>
-   
+
 <style scoped>
 .topic-span {
   width: fit-content;
@@ -94,13 +130,12 @@
   cursor: pointer;
   background-color: rgba(0, 128, 92, 0.573);
   color: #fff;
-  margin: 10px 0
+  margin: 10px 0;
 }
 
 .btns {
   margin-top: 20px;
   text-align: center;
-
 }
 
 .el-button {
@@ -167,16 +202,16 @@
 </style>
 
 <script>
-import axios from 'axios';
-import { Message } from 'element-ui';
+import axios from "axios";
+import { Message } from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import Vue from 'vue';
-import MakeComment from '../Comments/MakeComment.vue';
-import MakeComplaint from '../Complaints/MakeComplaint.vue';
-import Test4 from '../Test4.vue';
+import Vue from "vue";
+import MakeComment from "../Comments/MakeComment.vue";
+import MakeComplaint from "../Complaints/MakeComplaint.vue";
+import Test4 from "../Test4.vue";
 Vue.prototype.$message = Message;
 export default {
-  name: 'Evaluated',
+  name: "Evaluated",
   components: {
     MakeComment,
     MakeComplaint,
@@ -196,16 +231,15 @@ export default {
       mark: 0,
       temp: 0,
       commentform: {
-        name: '',
+        name: "",
       },
       complaintform: {
-        name: '',
+        name: "",
       },
-      formLabelWidth: '120px',
+      formLabelWidth: "120px",
       complaintContent: "",
       commentContent: "",
-
-    }
+    };
   },
   methods: {
 
@@ -258,29 +292,27 @@ export default {
       data.append('text', this.commentContent);
       data.append('score', this.mark);
       var config = {
-        method: 'post',
-        url: '/review/CreateReview',
-        data: data
+        method: "post",
+        url: "/review/CreateReview",
+        data: data,
       };
-      axios(config)
-        .then(res => {
-          if (res.data.status === 100) {
-            this.$message({
-              message: '评价成功',
-              type: 'success'
-            });
-            this.queryData().then(res => {
-              this.orders = res.data.data;
-            })
-          }
-          else {
-            this.$message({
-              message: '评价失败',
-              type: 'error'
-            });
-          }
-          this.CommentVisible = false;
-        })
+      axios(config).then((res) => {
+        if (res.data.status === 100) {
+          this.$message({
+            message: "评价成功",
+            type: "success",
+          });
+          this.queryData().then((res) => {
+            this.orders = res.data.data;
+          });
+        } else {
+          this.$message({
+            message: "评价失败",
+            type: "error",
+          });
+        }
+        this.CommentVisible = false;
+      });
     },
     handleCancleEvent5(){
       this.DeleteVisible = false;
@@ -295,34 +327,33 @@ export default {
       this.ComplaintVisible = false;
     },
     submitComplaint() {
-      let userId = localStorage.getItem('userId');
+      let userId = localStorage.getItem("userId");
       let data = new FormData();
       let index = this.selectedIndex;
-      data.append('orderId', this.orders[index].orderId);
-      data.append('userId', userId);
-      data.append('beUserId', this.orders[index].expertId);
-      data.append('contents', this.complaintContent);
+      data.append("orderId", this.orders[index].orderId);
+      data.append("userId", userId);
+      data.append("beUserId", this.orders[index].expertId);
+      data.append("contents", this.complaintContent);
 
       var config = {
-        method: 'post',
-        url: '/complaint/CreateComplaint',
-        data: data
+        method: "post",
+        url: "/complaint/CreateComplaint",
+        data: data,
       };
       axios(config)
         .then((res) => {
           if (res.data.data == 0) {
             this.$message({
-              message: '请勿重复投诉',
-              type: 'warning'
+              message: "请勿重复投诉",
+              type: "warning",
             });
-            this.queryData().then(res => {
+            this.queryData().then((res) => {
               this.orders = res.data.data;
-            })
-          }
-          else {
+            });
+          } else {
             this.$message({
-              message: '投诉成功',
-              type: 'success'
+              message: "投诉成功",
+              type: "success",
             });
           }
           this.ComplaintVisible = false;
@@ -345,25 +376,24 @@ export default {
       data.append("order_id", this.orders[index].orderId);
       console.log("haidh");
       var config = {
-        method: 'post',
-        url: '/order/ModifyOrderStatusToFinish',
-        data: data
-      }
+        method: "post",
+        url: "/order/ModifyOrderStatusToFinish",
+        data: data,
+      };
       axios(config)
-        .then(res => {
+        .then((res) => {
           if (res.data.status == 100) {
             this.$message({
-              message: '操作成功',
-              type: 'success'
+              message: "操作成功",
+              type: "success",
             });
-            this.queryData().then(res => {
+            this.queryData().then((res) => {
               this.orders = res.data.data;
-            })
-          }
-          else {
+            });
+          } else {
             this.$message({
-              message: '操作失败',
-              type: 'error'
+              message: "操作失败",
+              type: "error",
             });
           }
         })
@@ -390,17 +420,16 @@ export default {
         .then((res) => {
           if (res.data.status === 100) {
             this.$message({
-              message: '操作成功',
-              type: 'success'
+              message: "操作成功",
+              type: "success",
             });
-            this.queryData().then(res => {
+            this.queryData().then((res) => {
               this.orders = res.data.data;
-            })
-          }
-          else {
+            });
+          } else {
             this.$message({
-              message: '操作失败',
-              type: 'error'
+              message: "操作失败",
+              type: "error",
             });
           }
         })
@@ -430,112 +459,100 @@ export default {
     },
     async queryData() {
       console.log(this.userId);
-      console.log(typeof (this.userId));
+      console.log(typeof this.userId);
       var config = {
-        method: 'get',
-        url: '/order/GetOrderByID',
+        method: "get",
+        url: "/order/GetOrderByID",
         params: {
           customerId: this.userId
         },
-      }
-      var res = await axios(config)
+      };
+      var res = await axios(config);
       return res;
     },
     ConfirmComplaint(temp) {
       var data = new FormData();
 
-      data.append('Order_id', this.orders[temp].orderId);
-      data.append('user_id', this.userId);
-      data.append('be_user_id', this.orders[temp].expertId);
-      data.append('contents', this.complaintform.name);
+      data.append("Order_id", this.orders[temp].orderId);
+      data.append("user_id", this.userId);
+      data.append("be_user_id", this.orders[temp].expertId);
+      data.append("contents", this.complaintform.name);
       var config = {
-        method: 'post',
-        url: '/complaint/CreateComplaint',
-        data: data
+        method: "post",
+        url: "/complaint/CreateComplaint",
+        data: data,
       };
 
       var that = this;
 
-      axios(config)
-        .then(function (response) {
-          console.log("response是" + JSON.stringify(response));
-          console.log("response.data是" + JSON.stringify(response.data));
-          if (response.data.data == '0') {
-            that.ComplaintVisible = false;
-            that.ComplaintFalseVisible = true;
-          }
-          else {
-            that.$message.success("投诉成功");
-          }
-          // location.reload();
-          //this.$router.push('/Home');
-        })
+      axios(config).then(function (response) {
+        console.log("response是" + JSON.stringify(response));
+        console.log("response.data是" + JSON.stringify(response.data));
+        if (response.data.data == "0") {
+          that.ComplaintVisible = false;
+          that.ComplaintFalseVisible = true;
+        } else {
+          that.$message.success("投诉成功");
+        }
+        // location.reload();
+        //this.$router.push('/Home');
+      });
     },
-
-
-
 
     //确认评价的函数
     ConfirmComment(temp) {
       var data = new FormData();
-      data.append('user_id', this.userId);
-      data.append('expert_id', this.orders[temp].expertId);
-      data.append('topic_id', this.orders[temp].topicId);
-      data.append('order_id', this.orders[temp].orderId);
-      data.append('text', this.commentform.name);
-      data.append('score', 8);
+      data.append("userId", this.userId);
+      data.append("expertId", this.orders[temp].expertId);
+      data.append("topicId", this.orders[temp].topicId);
+      data.append("orderId", this.orders[temp].orderId);
+      data.append("text", this.commentform.name);
+      data.append("score", 8);
       var config = {
-        method: 'post',
-        url: '/review/CreateReview',
-        data: data
+        method: "post",
+        url: "/review/CreateReview",
+        data: data,
       };
 
       var that = this;
 
-      axios(config)
-        .then(function (response) {
-
-          console.log("response是" + JSON.stringify(response));
-          console.log("response.data是" + JSON.stringify(response.data));
-          var data1 = new FormData();
-          data1.append('customer_id', that.userId);
-          data1.append('order_id', that.orders[temp].orderId);
-          var config1 = {
-            method: 'get',
-            url: '/order/ModifyOrderStatusToReview',
-            data: data1,
-          }
-          axios(config1)
-            .then(function (res) {
-              console.log(res.data);
-            }
-            )
-            .catch(function (error) {
-              console.log(error);
-            });
-          location.reload();
-          //this.$router.push('/Home');
-        })
+      axios(config).then(function (response) {
+        console.log("response是" + JSON.stringify(response));
+        console.log("response.data是" + JSON.stringify(response.data));
+        var data1 = new FormData();
+        data1.append("customer_id", that.userId);
+        data1.append("order_id", that.orders[temp].orderId);
+        var config1 = {
+          method: "get",
+          url: "/order/ModifyOrderStatusToReview",
+          data: data1,
+        };
+        axios(config1)
+          .then(function (res) {
+            console.log(res.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        location.reload();
+        //this.$router.push('/Home');
+      });
     },
     pullData() {
-      this.queryData().then(res => {
+      this.queryData().then((res) => {
         this.orders = res.data.data;
-        console.log("jhjjjihi")
-      })
-    }
+        console.log("jhjjjihi");
+      });
+    },
   },
   mounted() {
-    this.userId = localStorage.getItem('userId');
-    this.queryData().then(res => {
+    this.userId = localStorage.getItem("userId");
+    this.queryData().then((res) => {
       this.orders = res.data.data;
-    })
+    });
   },
   activated() {
     this.pullData();
-  }
-}
+  },
+};
 </script>
-   
-
-   
- 
