@@ -318,7 +318,6 @@ export default {
       return res;
     },
     getExpert(item, index) {
-      console.log(this.Experts[index].phone);
       var id = this.Experts[index].phone;
       return id;
       /*this.$router.push({

@@ -32,7 +32,7 @@
               <el-button @click="linkToComment(index)" v-else-if="orders[index].state == '已完成'" style="padding-left: 12px;padding-right: 12px;">评价订单</el-button>
               <el-button @click="linkToComplaint(index)" v-else-if="orders[index].state == '已评价'" style="padding-left: 12px;padding-right: 12px;">投诉行家</el-button>
               <el-button @click="linkToDelete(index)" icon="el-icon-delete"
-                style="padding-left: 10px;padding-right: 10px;float:right;"></el-button>
+                style="padding-left: 10px;padding-right: 10px;float:right;" v-if="orders[index].state ==='已完成'|| orders[index].state === '已评价' || orders[index].state === '已取消'"></el-button>
 
               <el-dialog
                 title="取消订单"

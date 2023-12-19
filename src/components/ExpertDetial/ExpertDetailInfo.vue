@@ -73,41 +73,8 @@
             <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
               <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName" @close="handleCloseEvent" />
             </el-dialog>
-
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div style="display: flex; align-items: center;">
-                <img src="../../img/avatar.svg" style="width: 30px; height: 30px;" />
-                <div style="display: flex; flex-direction: column; margin-left: 5px;">
-                  <div style="font-weight: bolder; display: flex; align-items: center;">
-                    {{ item.name }}
-                  </div>
-                  <div style="display: flex; align-items: center; font-size: 12px; color: rgb(163, 162, 162)">
-                    {{ item.time }}
-                  </div>
-                </div>
-              </div>
-              <div style="margin-left: auto;">
-                <el-rate v-model="item.score" disabled></el-rate>
-              </div>
-            </div>
-            <br>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
-              item.text }}</div>
-            <div style="float:right; margin-bottom:8px;">
-            </div>
           </div>
         </el-card>
-        <div class="btns">
-          <br>
-          <el-button @click="favoriteAction()" :class="favoriteClass" round>
-            {{ favoriteText }}
-          </el-button>
-          <el-button @click="linkToConfirmOrder()" round>立即咨询</el-button>
-          <el-dialog title="订单支付" :visible.sync="dialogVisible" width="95%" :before-close="handleClose">
-            <ConfirmOrder :expert_id="expert_id" :name="ExpertDetailInfo.realName" @close="handleCloseEvent" />
-          </el-dialog>
-
-        </div>
 
       </el-main>
   </el-container>
@@ -433,10 +400,16 @@ export default {
     this.userId = localStorage.getItem("userId");
     this.expert_id = this.$route.params.id;
     var that = this;
-    this.queryData().then((res) => {
-      that.ExpertDetailInfo = res.data.data;
-      console.log("详情评分：" + that.ExpertDetailInfo.phone);
-    });
+    var config = {
+        method: "get",
+        url: "/expert/getOne",
+        params: {
+          expertId: this.expert_id,
+        },
+      };
+      axios(config).then((res)=>{
+        that.ExpertDetailInfo = res.data.data;
+      })
     this.isFavorite().then((res) => {
       console.log("这个是回来的值：" + res.data.data);
       that.isFavorited = res.data.data;

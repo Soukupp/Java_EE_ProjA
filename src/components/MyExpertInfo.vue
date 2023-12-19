@@ -55,7 +55,7 @@
 
         <el-button @click="addNewTopic" type="primary" class="el-icon-circle-plus-outline" style="margin: 10px;"> 新建话题</el-button>
 
-        <el-card v-for="(item,index) in user.topics" :key="index" style="margin-bottom: 30px;">
+        <el-card v-for="(item,index) in user.topics" :key="index" style="margin-bottom: 30px;" v-if="item.state ==='已审核'">
           <el-descriptions class="margin-top" :title="'话题' + (index + 1)"  :column="1" border>
             <el-descriptions-item>
               <template slot="label">

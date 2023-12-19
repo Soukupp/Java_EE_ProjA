@@ -1,8 +1,3 @@
-
-
-
-
-
 <template>
   <div class="register">
     <div class="register_form">
